@@ -1,0 +1,4 @@
+INSERT INTO EXAM_TYPE
+	SELECT 'theory', 30 FROM dual
+	UNION ALL SELECT 'practice', 140 FROM dual
+	;
