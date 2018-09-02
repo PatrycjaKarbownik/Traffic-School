@@ -1,0 +1,3 @@
+- co znaczy nocache w sequence?
+- '/' na koñcu triggera?
+- replace w triggerze?

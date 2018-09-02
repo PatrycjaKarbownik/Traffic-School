@@ -1,4 +1,4 @@
-INSERT INTO VEHICLE
+INSERT INTO VEHICLE (Number_plate, Brand, Model)
 	SELECT 'WND 771UM', 'Hyundai', 'i20' FROM dual
 	UNION ALL SELECT 'WND 725KL', 'Hyundai', 'i20' FROM dual
 	UNION ALL SELECT 'WND 71254', 'Hyundai', 'i20' FROM dual
