@@ -39,10 +39,9 @@ CREATE TABLE PERSON (
 CREATE TABLE EMPLOYEE (
 	ID_emp				INTEGER NOT NULL,
 	Pesel				VARCHAR2 (11 CHAR) NOT NULL,
-	Employment_date		DATE NOT NULL,
+	Hire_date			DATE NOT NULL,
 	Name_of_position	VARCHAR2 (40 CHAR) NOT NULL,
 	Starting_time		SMALLINT DEFAULT 7 NOT NULL CHECK(Starting_time >= 0 AND Starting_time <=23),
-	Salary				REAL NOT NULL,
 	
 	UNIQUE (Pesel),
 	PRIMARY KEY (ID_emp),
@@ -55,8 +54,8 @@ CREATE TABLE TRAINEE (
 	Pesel			VARCHAR2 (11 CHAR) NOT NULL,
 	Starting_date	DATE NOT NULL,
 	Age				INTEGER NOT NULL,
-	Theory			BOOLEAN NOT NULL, -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Internal_exam	BOOLEAN NOT NULL, -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Theory			CHAR(1) DEFAULT 'F' NOT NULL,
+	Internal_exam	CHAR(1) DEFAULT 'F' NOT NULL,
 	
 	UNIQUE (Pesel),
 	PRIMARY KEY (ID_trn),
@@ -128,3 +127,5 @@ CREATE TABLE LESSON (
 	FOREIGN KEY (ID_trn) REFERENCES TRAINEE (ID_trn) NOT DEFERRABLE,
 	FOREIGN KEY (ID_veh) REFERENCES VEHICLE (ID_veh) NOT DEFERRABLE
 );
+
+-- ALTER TABLE LESSON ADD CONSTRAINT fk_emp FOREIGN KEY (ID_emp) REFERENCES EMPLOYEE (ID_emp) NOT DEFERRABLE;
