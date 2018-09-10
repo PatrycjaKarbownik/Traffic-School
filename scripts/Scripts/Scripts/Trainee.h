@@ -4,4 +4,4 @@
 #include <fstream>
 #include <string>
 
-void traineeScript();
+void traineeScript(int how_many);

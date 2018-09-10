@@ -1,6 +1,6 @@
 #include "Trainee.h"
 
-void traineeScript()
+void traineeScript(int how_many)
 {
 	srand(time(NULL));
 	int year, month, day;
@@ -20,36 +20,59 @@ void traineeScript()
 	int building_number, flat_number;
 	int ID_addr = 54;
 
-	female.push_back("Anna");
-	female.push_back("Urszula");
-	female.push_back("Klaudia");
-	female.push_back("Izabela");
-	female.push_back("Justyna");
-	female.push_back("Monika");
+	//female
+	{
+		female.push_back("Anna");
+		female.push_back("Urszula");
+		female.push_back("Klaudia");
+		female.push_back("Izabela");
+		female.push_back("Justyna");
+		female.push_back("Monika");
+		female.push_back("Barbara");
+		female.push_back("Paulina");
+		female.push_back("Magdalena");
+		female.push_back("Dagmara");
+		female.push_back("Agata");
+	}
 
+	//male
+	{
+		male.push_back("Andrzej");
+		male.push_back("Cezary");
+		male.push_back("Mateusz");
+		male.push_back("Michal");
+		male.push_back("Piotr");
+		male.push_back("Krzysztof");
+		male.push_back("Patryk");
+		male.push_back("Wojciech");
+		male.push_back("Oskar");
+		male.push_back("Maciej");
+		male.push_back("Adam");
+	}
 
-	male.push_back("Andrzej");
-	male.push_back("Cezary");
-	male.push_back("Mateusz");
-	male.push_back("Michal");
-	male.push_back("Piotr");
-	male.push_back("Krzysztof");
-	male.push_back("Andrzej");
-
-	surname.push_back("Kowal");
-	surname.push_back("Pierscieniak");
-	surname.push_back("Mateja");
-	surname.push_back("Kmita");
-	surname.push_back("Sysyn");
-	surname.push_back("Matys");
-	surname.push_back("Aksamit");
-	surname.push_back("Koliber");
-	surname.push_back("Kolba");
-	surname.push_back("Zajac");
-	surname.push_back("Stolc");
-	surname.push_back("Bitke");
-	surname.push_back("Wilk");
-	surname.push_back("Bogusz");
+	//surname
+	{
+		surname.push_back("Kowal");
+		surname.push_back("Pierscieniak");
+		surname.push_back("Mateja");
+		surname.push_back("Kmita");
+		surname.push_back("Sysyn");
+		surname.push_back("Matys");
+		surname.push_back("Aksamit");
+		surname.push_back("Koliber");
+		surname.push_back("Kolba");
+		surname.push_back("Zajac");
+		surname.push_back("Stolc");
+		surname.push_back("Bitke");
+		surname.push_back("Wilk");
+		surname.push_back("Bogusz");
+		surname.push_back("Charko");
+		surname.push_back("Nawrot");
+		surname.push_back("Kowalik");
+		surname.push_back("Lisik");
+		surname.push_back("Grzeja");
+		surname.push_back("Czajnik");
+	}
 
 	//starting_date
 	{
@@ -166,13 +189,13 @@ void traineeScript()
 		file_trainee("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_trainee_trn.sql"),
 		file_address("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_address_trn.sql");
 
-	file_person << "INSERT INTO PERSON (Pesel, Surname, Name, Birthday, ID_addr)";
-	file_trainee << "INSERT INTO TRAINEE (Pesel, Starting_date)";
-	file_address << "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number)";
+	file_person << "INSERT INTO PERSON (Pesel, Surname, Name, Birthday, ID_addr)" << std::endl;
+	file_trainee << "INSERT INTO TRAINEE (Pesel, Starting_date)" << std::endl;
+	file_address << "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number)" << std::endl;
 
 	bool start = true;
 
-	for (int i = 0; i<100; ++i)
+	for (int i = 0; i<how_many; ++i)
 	{
 		++ID_addr;
 		year = rand() % 100;
@@ -184,20 +207,27 @@ void traineeScript()
 		sex = rand() % 10;
 		last = rand() % 10;
 
-		//pesel tu trzeba posklejac
+		pesel = std::to_string(year);
+		if (month < 10) pesel += '0' + std::to_string(month);
+		else pesel += std::to_string(month);
+		if (day < 10) pesel += '0' + std::to_string(day);
+		else pesel += std::to_string(day);
+			
+		if (i < 10) pesel += "00" + std::to_string(i);
+		else pesel += '0' + std::to_string(i);
+		pesel += std::to_string(sex) + std::to_string(last);
 
+		surnam = rand() % size_surname;
 		if (sex % 2 == 0)
 			name = rand() % size_female;
 		else
 			name = rand() % size_male;
 
-		surnam = rand() % size_surname;
-
 		start_date = rand() % size_starting_date;
 
 		city_str = rand() % size_city_street;
-		building_number = rand() % 100;
-		flat_number = rand() % 50;
+		building_number = rand() % 100 + 1;
+		flat_number = rand() % 50 + 1;
 
 		if (start)
 		{
@@ -212,12 +242,25 @@ void traineeScript()
 			file_trainee << "UNION ALL SELECT ";
 		}
 		
-		file_address << city_street[city_str] << ", " << building_number << ", ";
+		file_address << city_street[city_str] << "', " << building_number << ", ";
 		if (flat_number % 5 == 0) file_address << "NULL";
 		else file_address << flat_number;
 		file_address << " FROM dual" << std::endl;
 
+		file_person << "'" << pesel << "', '" << surname[surnam] << "', '";
+		if (sex % 2 == 0) file_person << female[name];
+		else file_person << male[name];
+		file_person << "', to_date('19" << year << "-";
+		if (month < 10) file_person << "0";
+		file_person << month << "-";
+		if (day < 10) file_person << "0";
+		file_person << day << "', 'yyyy-mm-dd'), " << ID_addr << " FROM dual" << std::endl;
 
+		file_trainee << "'" << pesel << "', to_date(" << starting_date[start_date] << ", 'yyyy-mm-dd') FROM dual" << std::endl;
 
+		start = false;
 	}
+	file_address << ";";
+	file_person << ";";
+	file_trainee << ";";
 }

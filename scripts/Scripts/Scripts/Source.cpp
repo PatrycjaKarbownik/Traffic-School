@@ -33,7 +33,11 @@ int main()
 			std::cout << "[ADDRESS] The script has saved." << std::endl << std::endl;
 			break;
 		case 2:
-			traineeScript();
+			int x;
+			std::cout << "How many trainees do you need?" << std::endl << "I need: ";
+			std::cin >> x;
+			traineeScript(x);
+			clear();
 			std::cout << "[PERSON and TRAINEE] The script has saved." << std::endl << std::endl;
 			break;
 		case 3:
