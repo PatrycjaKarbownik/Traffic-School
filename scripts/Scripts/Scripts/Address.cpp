@@ -2,25 +2,33 @@
 
 void addressScript()
 {
+
 	std::vector<std::string> city;
 	std::vector<std::string> street;
 
-	city.push_back("Nowy Dwor Mazowiecki");
-	city.push_back("Zakroczym");
-	city.push_back("Janowek");
-	city.push_back("Jablonna");
-	city.push_back("Czosnow");
-	city.push_back("Leoncin");
-
-	street.push_back("Zakroczymska");
-	street.push_back("Legionow");
-	street.push_back("Modlinska");
-	street.push_back("Paderewskiego");
-	street.push_back("Falata");
-	street.push_back("Kopernika");
-	street.push_back("Zegrzynska");
-
 	std::ofstream file("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_address.sql");
+
+	//city
+	{
+		city.push_back("Nowy Dwor Mazowiecki");
+		city.push_back("Zakroczym");
+		city.push_back("Janowek");
+		city.push_back("Jablonna");
+		city.push_back("Czosnow");
+		city.push_back("Leoncin");
+	}
+
+	//street
+	{
+		street.push_back("Zakroczymska");
+		street.push_back("Legionow");
+		street.push_back("Modlinska");
+		street.push_back("Paderewskiego");
+		street.push_back("Falata");
+		street.push_back("Kopernika");
+		street.push_back("Zegrzynska");
+	}
+
 	bool start = true;
 
 	file << "INSERT INTO ADDRESS (City, Street)" << std::endl;

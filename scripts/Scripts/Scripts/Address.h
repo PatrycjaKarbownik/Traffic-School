@@ -4,4 +4,11 @@
 #include <fstream>
 #include <string>
 
+/*
+std::vector<std::string> city;
+std::vector<std::string> street;
+
+std::ofstream file("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_address.sql");
+*/
+
 void addressScript();
