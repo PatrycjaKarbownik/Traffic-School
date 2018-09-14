@@ -1,12 +1,12 @@
 INSERT INTO PERSON (Pesel, Surname, Name, Birthday, ID_addr)
-SELECT '77070900053', 'Czajnik', 'Patryk', to_date('1977-07-09', 'yyyy-mm-dd'), 55 FROM dual
-UNION ALL SELECT '82092400105', 'Czajnik', 'Agata', to_date('1982-09-24', 'yyyy-mm-dd'), 56 FROM dual
-UNION ALL SELECT '88111600280', 'Kmita', 'Monika', to_date('1988-11-16', 'yyyy-mm-dd'), 57 FROM dual
-UNION ALL SELECT '71031600384', 'Pierscieniak', 'Klaudia', to_date('1971-03-16', 'yyyy-mm-dd'), 58 FROM dual
-UNION ALL SELECT '83100700487', 'Lisik', 'Klaudia', to_date('1983-10-07', 'yyyy-mm-dd'), 59 FROM dual
-UNION ALL SELECT '65110600515', 'Bitke', 'Adam', to_date('1965-11-06', 'yyyy-mm-dd'), 60 FROM dual
-UNION ALL SELECT '81010300641', 'Czajnik', 'Paulina', to_date('1981-01-03', 'yyyy-mm-dd'), 61 FROM dual
-UNION ALL SELECT '61072600720', 'Bogusz', 'Agata', to_date('1961-07-26', 'yyyy-mm-dd'), 62 FROM dual
-UNION ALL SELECT '67011200875', 'Kowal', 'Wojciech', to_date('1967-01-12', 'yyyy-mm-dd'), 63 FROM dual
-UNION ALL SELECT '64091100926', 'Kowalik', 'Klaudia', to_date('1964-09-11', 'yyyy-mm-dd'), 64 FROM dual
+SELECT '82072500045', 'Koliber', 'Magdalena', to_date('1982-07-25', 'yyyy-mm-dd'), 55 FROM dual
+UNION ALL SELECT '82010100153', 'Kowalik', 'Piotr', to_date('1982-01-01', 'yyyy-mm-dd'), 56 FROM dual
+UNION ALL SELECT '77050800216', 'Grzeja', 'Adam', to_date('1977-05-08', 'yyyy-mm-dd'), 57 FROM dual
+UNION ALL SELECT '67120200375', 'Koliber', 'Adam', to_date('1967-12-02', 'yyyy-mm-dd'), 58 FROM dual
+UNION ALL SELECT '63081800455', 'Matys', 'Wojciech', to_date('1963-08-18', 'yyyy-mm-dd'), 59 FROM dual
+UNION ALL SELECT '94051900514', 'Matys', 'Krzysztof', to_date('1994-05-19', 'yyyy-mm-dd'), 60 FROM dual
+UNION ALL SELECT '76061600679', 'Kowal', 'Patryk', to_date('1976-06-16', 'yyyy-mm-dd'), 61 FROM dual
+UNION ALL SELECT '68072800707', 'Matys', 'Monika', to_date('1968-07-28', 'yyyy-mm-dd'), 62 FROM dual
+UNION ALL SELECT '64010200859', 'Stolc', 'Cezary', to_date('1964-01-02', 'yyyy-mm-dd'), 63 FROM dual
+UNION ALL SELECT '82101300982', 'Matys', 'Justyna', to_date('1982-10-13', 'yyyy-mm-dd'), 64 FROM dual
 ;

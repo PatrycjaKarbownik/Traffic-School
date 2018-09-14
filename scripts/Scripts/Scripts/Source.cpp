@@ -15,9 +15,7 @@ int main()
 	{ 
 		std::cout << "Which script would you like to choose?" << std::endl;
 		std::cout << "[1] - ADDRESS" << std::endl;
-		std::cout << "[2] - trainee (PERSON and TRAINEE)" << std::endl;
-		std::cout << "[3] - EXAM" << std::endl;
-		std::cout << "[4] - LESSON" << std::endl;
+		std::cout << "[2] - trainee (PERSON, TRAINEE, LESSON and EXAM)" << std::endl;
 		std::cout << "[0] - end" << std::endl << std::endl;
 
 		std::cout << "I choose: ";
@@ -39,12 +37,6 @@ int main()
 			traineeScript(x);
 			clear();
 			std::cout << "[PERSON and TRAINEE] The script has saved." << std::endl << std::endl;
-			break;
-		case 3:
-			std::cout << "[EXAM] The script has saved." << std::endl << std::endl;
-			break;
-		case 4:
-			std::cout << "[LESSON] The script has saved." << std::endl << std::endl;
 			break;
 		default:
 			std::cout << "Wrong choice!" << std::endl << std::endl;

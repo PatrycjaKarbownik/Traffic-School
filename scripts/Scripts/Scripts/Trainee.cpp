@@ -39,10 +39,16 @@ void traineeScript(int how_many)
 		int lesson_break;
 		int area_first_no;
 
+		int exam_year, exam_month, exam_day;
+		int ID_word;
+		std::string pass_or_not;
+		int random;
+
 		std::ofstream file_person("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_person_trn.sql"),
 			file_trainee("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_trainee_trn.sql"),
 			file_address("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_address_trn.sql"),
-			file_lesson("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_lesson_trn.sql");
+			file_lesson("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_lesson_trn.sql"),
+			file_exam("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_exam_trn.sql");
 	
 
 	//female
@@ -249,13 +255,14 @@ void traineeScript(int how_many)
 	size_city_street = city_street.size();
 
 	file_person << "INSERT INTO PERSON (Pesel, Surname, Name, Birthday, ID_addr)" << std::endl;
-	file_trainee << "INSERT INTO TRAINEE (Pesel, Starting_date)" << std::endl;
+	file_trainee << "INSERT INTO TRAINEE (Pesel, Starting_date, Theory, Internal_exam)" << std::endl;
 	file_address << "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number)" << std::endl;
 	file_lesson << "INSERT INTO LESSON (L_date, Starting_time, Area_name, ID_emp, ID_trn, ID_veh)" << std::endl;
+	file_exam << "INSERT INTO EXAM (E_date, ID_word, ID_trn, E_type, Pass_or_not)" << std::endl;
 
 	bool start = true;
 
-	for (int i = 0; i<how_many; ++i)
+	for (int i = 0; i < how_many; ++i)
 	{
 		++ID_addr;
 		++ID_trn;
@@ -296,6 +303,7 @@ void traineeScript(int how_many)
 			file_person << "SELECT ";
 			file_trainee << "SELECT ";
 			file_lesson << "SELECT ";
+			file_exam << "SELECT ";
 		}
 		else
 		{
@@ -303,6 +311,7 @@ void traineeScript(int how_many)
 			file_person << "UNION ALL SELECT ";
 			file_trainee << "UNION ALL SELECT ";
 			file_lesson << "UNION ALL SELECT ";
+			file_exam << "UNION ALL SELECT ";
 		}
 		
 		file_address << city_street[city_str] << "', " << building_number << ", ";
@@ -319,18 +328,20 @@ void traineeScript(int how_many)
 		if (day < 10) file_person << "0";
 		file_person << day << "', 'yyyy-mm-dd'), " << ID_addr << " FROM dual" << std::endl;
 
-		file_trainee << "'" << pesel << "', to_date(" << starting_date[start_date] << ", 'yyyy-mm-dd') FROM dual" << std::endl;
+		file_trainee << "'" << pesel << "', to_date(" << starting_date[start_date] << ", 'yyyy-mm-dd'), 'T', 'T' FROM dual" << std::endl;
 
 
-		lesson_date = ++start_date; //first
-		lesson_year = std::stoi(starting_date[lesson_date].substr(1, 4));
-		lesson_month = std::stoi(starting_date[lesson_date].substr(6, 7));
-		lesson_day = std::stoi(starting_date[lesson_date].substr(9, 10));
-
-		ID_emp = rand() % 5 + 1;
-
-		switch (ID_emp)
+		//lesson
 		{
+			lesson_date = ++start_date; //first
+			lesson_year = std::stoi(starting_date[lesson_date].substr(1, 4));
+			lesson_month = std::stoi(starting_date[lesson_date].substr(6, 7));
+			lesson_day = std::stoi(starting_date[lesson_date].substr(9, 10));
+
+			ID_emp = rand() % 5 + 1;
+
+			switch (ID_emp)
+			{
 			case 1:
 				ID_veh = 1;
 				break;
@@ -346,153 +357,260 @@ void traineeScript(int how_many)
 			case 5:
 				ID_veh = 5;
 				break;
-		}
-
-		area_no = rand() % 4 + 2;
-
-		if (area_no == 3) ID_veh = 4;
-
-		for (int i = 0; i < 3; ++i) //2h
-		{
-			area_first_no = rand() % 2;
-
-			if (ID_emp == 3) starting_time = rand() % 3 + 1;
-			else if (ID_emp == 1 || ID_emp == 4) starting_time = rand() % 3;
-			else starting_time = rand() % 2 + 3;
-
-			file_lesson << "to_date('" << lesson_year << "-";
-			if (lesson_month < 10) file_lesson << "0";
-			file_lesson << lesson_month << "-";
-			if (lesson_day < 10) file_lesson << "0";
-			file_lesson << lesson_day << "', 'yyyy-mm-dd')" << ", " << starting_time_2[starting_time] << ", " << area_name[area_first_no] << ", " << ID_emp
-						<< ", " << ID_trn << ", " << ID_veh << " FROM dual" << std::endl;
-
-			lesson_break = rand() % 10 + 1;
-			if (lesson_break >= 7) lesson_break = rand() % 2 + 3;
-			else lesson_break = rand() % 2 + 1;
-
-			lesson_day += lesson_break;
-			if (lesson_month == 2)
-			{
-				if (lesson_year % 4 == 0)
-				{
-					if (lesson_day > 29)
-					{
-						++lesson_month;
-						lesson_day = lesson_day % 29 + 1;
-					}
-				}
-				else if (lesson_day > 28)
-				{
-					++lesson_month;
-					lesson_day = lesson_day % 28 + 1;
-				}
-			}
-			else if (lesson_month == 12)
-			{
-				if (lesson_day > 31)
-				{
-					++lesson_year;
-					lesson_month = 1;
-					lesson_day = lesson_day % 31 + 1;
-				}
-			}
-			else if (lesson_month == 1 || lesson_month == 3 || lesson_month == 5 || lesson_month == 7 || lesson_month == 8 || lesson_month == 10)
-			{
-				if (lesson_day > 31)
-				{
-					++lesson_month;
-					lesson_day = lesson_day % 31 + 1;
-				}
-			}
-			else if (lesson_day > 30)
-			{
-				++lesson_month;
-				lesson_day = lesson_day % 30 + 1;
 			}
 
-			file_lesson << "UNION ALL SELECT ";
-		}
+			area_no = rand() % 4 + 2;
+			ID_word = (area_no + 2) % 5 + 1;
 
+			if (area_no == 3) ID_veh = 4;
 
-
-		if (area_no == 2 || area_no == 5) how_many_lessons = 6;
-		else how_many_lessons = 8;
-
-		for (int i = 0; i < how_many_lessons; ++i)
-		{
-			if (area_no == 2 || area_no == 5) //4h
+			for (int i = 0; i < 3; ++i) //2h
 			{
-				if (ID_emp == 3) starting_time = rand() % 2 + 1;
-				else if (ID_emp == 1 || ID_emp == 4) starting_time = rand() % 3;
-				else starting_time = 3;
-			}
-			else //3h
-			{
+				area_first_no = rand() % 2;
+
 				if (ID_emp == 3) starting_time = rand() % 3 + 1;
 				else if (ID_emp == 1 || ID_emp == 4) starting_time = rand() % 3;
-				else starting_time = 3;
-			}
+				else starting_time = rand() % 2 + 3;
 
-			file_lesson << "to_date('" << lesson_year << "-";
-			if (lesson_month < 10) file_lesson << "0";
-			file_lesson << lesson_month << "-";
-			if (lesson_day < 10) file_lesson << "0";
-			file_lesson << lesson_day << "', 'yyyy-mm-dd')" << ", ";
-			
-			if (area_no == 2 || area_no == 5) file_lesson << starting_time_4[starting_time];
-			else file_lesson << starting_time_3[starting_time];
-				
-			file_lesson << ", " << area_name[area_no] << ", " << ID_emp << ", " << ID_trn << ", " << ID_veh << " FROM dual" << std::endl;
+				file_lesson << "to_date('" << lesson_year << "-";
+				if (lesson_month < 10) file_lesson << "0";
+				file_lesson << lesson_month << "-";
+				if (lesson_day < 10) file_lesson << "0";
+				file_lesson << lesson_day << "', 'yyyy-mm-dd')" << ", " << starting_time_2[starting_time] << ", " << area_name[area_first_no] << ", " << ID_emp
+					<< ", " << ID_trn << ", " << ID_veh << " FROM dual" << std::endl;
 
+				lesson_break = rand() % 10 + 1;
+				if (lesson_break >= 7) lesson_break = rand() % 2 + 3;
+				else lesson_break = rand() % 2 + 1;
 
-
-			lesson_break = rand() % 10 + 1;
-			if (lesson_break >= 7) lesson_break = rand() % 2 + 3;
-			else lesson_break = rand() % 2 + 1;
-			lesson_day += lesson_break;
-
-			if (lesson_month == 2)
-			{
-				if (lesson_year % 4 == 0)
+				lesson_day += lesson_break;
+				if (lesson_month == 2)
 				{
-					if (lesson_day > 29)
+					if (lesson_year % 4 == 0)
+					{
+						if (lesson_day > 29)
+						{
+							++lesson_month;
+							lesson_day = lesson_day % 29 + 1;
+						}
+					}
+					else if (lesson_day > 28)
 					{
 						++lesson_month;
-						lesson_day = lesson_day % 29 + 1;
+						lesson_day = lesson_day % 28 + 1;
 					}
 				}
-				else if (lesson_day > 28)
+				else if (lesson_month == 12)
 				{
-					++lesson_month;
-					lesson_day = lesson_day % 28 + 1;
+					if (lesson_day > 31)
+					{
+						++lesson_year;
+						lesson_month = 1;
+						lesson_day = lesson_day % 31 + 1;
+					}
 				}
-			}
-			else if (lesson_month == 12)
-			{
-				if (lesson_day > 31)
+				else if (lesson_month == 1 || lesson_month == 3 || lesson_month == 5 || lesson_month == 7 || lesson_month == 8 || lesson_month == 10)
 				{
-					++lesson_year;
-					lesson_month = 1;
-					lesson_day = lesson_day % 31 + 1;
-				}
-			}
-			else if (lesson_month == 1 || lesson_month == 3 || lesson_month == 5 || lesson_month == 7 || lesson_month == 8 || lesson_month == 10)
-			{
 				if (lesson_day > 31)
 				{
 					++lesson_month;
 					lesson_day = lesson_day % 31 + 1;
 				}
-			}
-			else if (lesson_day > 30)
-			{
-				++lesson_month;
-				lesson_day = lesson_day % 30 + 1;
+				}
+				else if (lesson_day > 30)
+				{
+					++lesson_month;
+					lesson_day = lesson_day % 30 + 1;
+				}
+
+				file_lesson << "UNION ALL SELECT ";
 			}
 
-			if(i != how_many_lessons - 1) file_lesson << "UNION ALL SELECT ";
-			else file_lesson << std::endl;
+
+
+			if (area_no == 2 || area_no == 5) how_many_lessons = 6;
+			else how_many_lessons = 8;
+
+			for (int i = 0; i < how_many_lessons; ++i)
+			{
+				if (area_no == 2 || area_no == 5) //4h
+				{
+					if (ID_emp == 3) starting_time = rand() % 2 + 1;
+					else if (ID_emp == 1 || ID_emp == 4) starting_time = rand() % 3;
+					else starting_time = 3;
+				}
+				else //3h
+				{
+					if (ID_emp == 3) starting_time = rand() % 3 + 1;
+					else if (ID_emp == 1 || ID_emp == 4) starting_time = rand() % 3;
+					else starting_time = 3;
+				}
+
+				file_lesson << "to_date('" << lesson_year << "-";
+				if (lesson_month < 10) file_lesson << "0";
+				file_lesson << lesson_month << "-";
+				if (lesson_day < 10) file_lesson << "0";
+				file_lesson << lesson_day << "', 'yyyy-mm-dd')" << ", ";
+
+				if (area_no == 2 || area_no == 5) file_lesson << starting_time_4[starting_time];
+				else file_lesson << starting_time_3[starting_time];
+
+				file_lesson << ", " << area_name[area_no] << ", " << ID_emp << ", " << ID_trn << ", " << ID_veh << " FROM dual" << std::endl;
+
+
+
+				lesson_break = rand() % 10 + 1;
+				if (lesson_break >= 7) lesson_break = rand() % 2 + 3;
+				else lesson_break = rand() % 2 + 1;
+				lesson_day += lesson_break;
+
+				if (lesson_month == 2)
+				{
+					if (lesson_year % 4 == 0)
+					{
+						if (lesson_day > 29)
+						{
+							++lesson_month;
+							lesson_day = lesson_day % 29 + 1;
+						}
+					}
+					else if (lesson_day > 28)
+					{
+						++lesson_month;
+						lesson_day = lesson_day % 28 + 1;
+					}
+				}
+				else if (lesson_month == 12)
+				{
+					if (lesson_day > 31)
+					{
+						++lesson_year;
+						lesson_month = 1;
+						lesson_day = lesson_day % 31 + 1;
+					}
+				}
+				else if (lesson_month == 1 || lesson_month == 3 || lesson_month == 5 || lesson_month == 7 || lesson_month == 8 || lesson_month == 10)
+				{
+					if (lesson_day > 31)
+					{
+						++lesson_month;
+						lesson_day = lesson_day % 31 + 1;
+					}
+				}
+				else if (lesson_day > 30)
+				{
+					++lesson_month;
+					lesson_day = lesson_day % 30 + 1;
+				}
+
+				if (i != how_many_lessons - 1) file_lesson << "UNION ALL SELECT ";
+				else file_lesson << std::endl;
+			}
+
+		} //end lesson
+
+		//exam
+		{
+			exam_year = lesson_year;
+			exam_month = lesson_month;
+			exam_day = lesson_day + 10;
+
+			
+
+			
+
+			for (int j = 0; j < 2; ++j)
+			{
+				if (j == 0)
+				{
+					random = rand() % 15;
+					if (random == 14) random = 3;
+					else if (random > 9) random = 2;
+					else random = 1;
+				}
+				else
+				{
+					random = rand() % 30;
+					if (random > 27) random = 5;
+					else if (random > 23) random = 4;
+					else if (random > 14) random = 3;
+					else if (random > 5) random = 2;
+					else random = 1;
+				}
+				for (int i = 0; i < random; ++i)
+				{
+								if (exam_month == 2)
+								{
+									if (exam_year % 4 == 0)
+									{
+										if (exam_day > 29)
+										{
+											++exam_month;
+											exam_day = exam_day % 29 + 1;
+										}
+									}
+									else if (exam_day > 28)
+									{
+										++exam_month;
+										exam_day = exam_day % 28 + 1;
+									}
+								}
+								else if (exam_month == 12)
+								{
+									if (exam_day > 31)
+									{
+										++exam_year;
+										exam_month = 1;
+										exam_day = exam_day % 31 + 1;
+									}
+								}
+								else if (exam_month == 1 || exam_month == 3 || exam_month == 5 || exam_month == 7 || exam_month == 8 || exam_month == 10)
+								{
+									if (exam_day > 31)
+									{
+										++exam_month;
+										exam_day = exam_day % 31 + 1;
+									}
+								}
+								else if (exam_day > 30)
+								{
+									++exam_month;
+									exam_day = exam_day % 30 + 1;
+								}
+
+
+
+					file_exam << "to_date('" << exam_year << "-";
+					if (exam_month < 10) file_exam << "0";
+					file_exam << exam_month << "-";
+					if (exam_day < 10) file_exam << "0";
+					file_exam << exam_day << "', 'yyyy-mm-dd')";
+
+					file_exam << ", " << ID_word << ", " << ID_trn;
+
+					if(j==0) file_exam << ", 'theory', ";
+					else file_exam << ", 'practice', ";
+
+					if (i == random - 1) file_exam << "'pass'";
+					else file_exam << "'not'";
+
+					file_exam << " FROM dual" << std::endl;
+
+					if (j == 0) exam_day += 7;
+					else exam_day += 21;
+					
+
+					if ((j != 1 || i != random - 1)) file_exam << "UNION ALL SELECT ";
+				}
+
+				exam_day += 14;
+
+			}
+
+
+
+
+			
 		}
 
 
