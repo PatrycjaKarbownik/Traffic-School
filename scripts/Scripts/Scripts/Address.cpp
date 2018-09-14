@@ -1,11 +1,7 @@
 #include "Address.h"
 
-void addressScript()
+void Address::addressScript()
 {
-
-	std::vector<std::string> city;
-	std::vector<std::string> street;
-
 	std::ofstream file("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_address.sql");
 
 	//city

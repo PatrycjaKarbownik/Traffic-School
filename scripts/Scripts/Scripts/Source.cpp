@@ -10,6 +10,8 @@ void clear()
 int main()
 {
 	int choice;
+	Trainee *trn;
+	Address *adr;
 
 	while(1)
 	{ 
@@ -27,14 +29,16 @@ int main()
 		case 0:
 			return 1;
 		case 1:
-			addressScript();
+			adr = new Address();
+			adr->addressScript();
 			std::cout << "[ADDRESS] The script has saved." << std::endl << std::endl;
 			break;
 		case 2:
 			int x;
 			std::cout << "How many trainees do you need?" << std::endl << "I need: ";
 			std::cin >> x;
-			traineeScript(x);
+			trn = new Trainee();
+			trn->traineeScript(x);
 			clear();
 			std::cout << "[PERSON and TRAINEE] The script has saved." << std::endl << std::endl;
 			break;

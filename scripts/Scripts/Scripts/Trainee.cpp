@@ -1,50 +1,10 @@
 #include "Trainee.h"
 
-void traineeScript(int how_many)
+void Trainee::traineeScript(int how_many)
 {
 	srand(time(NULL));
 
-	// variable
-	
-		int year, month, day;
-		int sex, last;
-		std::string pesel;
-		std::vector<std::string> female;
-		std::vector<std::string> male;
-		std::vector<std::string> surname;
-		int name, surnam;
-		int size_male, size_female, size_surname;
-		std::vector<std::string> starting_date;
-		int start_date;
-		int size_starting_date;
-		std::vector<std::string> city_street;
-		int city_str;
-		int size_city_street;
-		int building_number, flat_number;
-		int ID_addr = 54;
-		int ID_trn = 1;
-
-		std::vector<std::string> area_name;
-		std::vector<int> starting_time_2;
-		std::vector<int> starting_time_3;
-		std::vector<int> starting_time_4;
-		int lesson_date;
-		int lesson_year, lesson_month, lesson_day;
-		int lesson_no;
-		int area_no;
-		int ID_emp;
-		int ID_veh;
-		int starting_time;
-		int how_many_lessons;
-		int lesson_break;
-		int area_first_no;
-
-		int exam_year, exam_month, exam_day;
-		int ID_word;
-		std::string pass_or_not;
-		int random;
-
-		std::ofstream file_person("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_person_trn.sql"),
+	std::ofstream file_person("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_person_trn.sql"),
 			file_trainee("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_trainee_trn.sql"),
 			file_address("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_address_trn.sql"),
 			file_lesson("D:/Pati/AA SERWER/Documents/Important things/STUDIA/Projects/TrafficSchool/sql/SCR_lesson_trn.sql"),
@@ -384,44 +344,8 @@ void traineeScript(int how_many)
 				else lesson_break = rand() % 2 + 1;
 
 				lesson_day += lesson_break;
-				if (lesson_month == 2)
-				{
-					if (lesson_year % 4 == 0)
-					{
-						if (lesson_day > 29)
-						{
-							++lesson_month;
-							lesson_day = lesson_day % 29 + 1;
-						}
-					}
-					else if (lesson_day > 28)
-					{
-						++lesson_month;
-						lesson_day = lesson_day % 28 + 1;
-					}
-				}
-				else if (lesson_month == 12)
-				{
-					if (lesson_day > 31)
-					{
-						++lesson_year;
-						lesson_month = 1;
-						lesson_day = lesson_day % 31 + 1;
-					}
-				}
-				else if (lesson_month == 1 || lesson_month == 3 || lesson_month == 5 || lesson_month == 7 || lesson_month == 8 || lesson_month == 10)
-				{
-				if (lesson_day > 31)
-				{
-					++lesson_month;
-					lesson_day = lesson_day % 31 + 1;
-				}
-				}
-				else if (lesson_day > 30)
-				{
-					++lesson_month;
-					lesson_day = lesson_day % 30 + 1;
-				}
+				
+				checkDate(lesson_year, lesson_month, lesson_day);
 
 				file_lesson << "UNION ALL SELECT ";
 			}
@@ -464,60 +388,19 @@ void traineeScript(int how_many)
 				else lesson_break = rand() % 2 + 1;
 				lesson_day += lesson_break;
 
-				if (lesson_month == 2)
-				{
-					if (lesson_year % 4 == 0)
-					{
-						if (lesson_day > 29)
-						{
-							++lesson_month;
-							lesson_day = lesson_day % 29 + 1;
-						}
-					}
-					else if (lesson_day > 28)
-					{
-						++lesson_month;
-						lesson_day = lesson_day % 28 + 1;
-					}
-				}
-				else if (lesson_month == 12)
-				{
-					if (lesson_day > 31)
-					{
-						++lesson_year;
-						lesson_month = 1;
-						lesson_day = lesson_day % 31 + 1;
-					}
-				}
-				else if (lesson_month == 1 || lesson_month == 3 || lesson_month == 5 || lesson_month == 7 || lesson_month == 8 || lesson_month == 10)
-				{
-					if (lesson_day > 31)
-					{
-						++lesson_month;
-						lesson_day = lesson_day % 31 + 1;
-					}
-				}
-				else if (lesson_day > 30)
-				{
-					++lesson_month;
-					lesson_day = lesson_day % 30 + 1;
-				}
+				checkDate(lesson_year, lesson_month, lesson_day);
 
 				if (i != how_many_lessons - 1) file_lesson << "UNION ALL SELECT ";
 				else file_lesson << std::endl;
 			}
 
-		} //end lesson
+		}
 
 		//exam
 		{
 			exam_year = lesson_year;
 			exam_month = lesson_month;
 			exam_day = lesson_day + 10;
-
-			
-
-			
 
 			for (int j = 0; j < 2; ++j)
 			{
@@ -539,46 +422,7 @@ void traineeScript(int how_many)
 				}
 				for (int i = 0; i < random; ++i)
 				{
-								if (exam_month == 2)
-								{
-									if (exam_year % 4 == 0)
-									{
-										if (exam_day > 29)
-										{
-											++exam_month;
-											exam_day = exam_day % 29 + 1;
-										}
-									}
-									else if (exam_day > 28)
-									{
-										++exam_month;
-										exam_day = exam_day % 28 + 1;
-									}
-								}
-								else if (exam_month == 12)
-								{
-									if (exam_day > 31)
-									{
-										++exam_year;
-										exam_month = 1;
-										exam_day = exam_day % 31 + 1;
-									}
-								}
-								else if (exam_month == 1 || exam_month == 3 || exam_month == 5 || exam_month == 7 || exam_month == 8 || exam_month == 10)
-								{
-									if (exam_day > 31)
-									{
-										++exam_month;
-										exam_day = exam_day % 31 + 1;
-									}
-								}
-								else if (exam_day > 30)
-								{
-									++exam_month;
-									exam_day = exam_day % 30 + 1;
-								}
-
-
+					checkDate(exam_year, exam_month, exam_day);
 
 					file_exam << "to_date('" << exam_year << "-";
 					if (exam_month < 10) file_exam << "0";
@@ -588,7 +432,7 @@ void traineeScript(int how_many)
 
 					file_exam << ", " << ID_word << ", " << ID_trn;
 
-					if(j==0) file_exam << ", 'theory', ";
+					if (j == 0) file_exam << ", 'theory', ";
 					else file_exam << ", 'practice', ";
 
 					if (i == random - 1) file_exam << "'pass'";
@@ -598,7 +442,7 @@ void traineeScript(int how_many)
 
 					if (j == 0) exam_day += 7;
 					else exam_day += 21;
-					
+
 
 					if ((j != 1 || i != random - 1)) file_exam << "UNION ALL SELECT ";
 				}
@@ -607,17 +451,56 @@ void traineeScript(int how_many)
 
 			}
 
-
-
-
-			
 		}
-
 
 		start = false;
 	}
+
 	file_address << ";";
 	file_person << ";";
 	file_trainee << ";";
 	file_lesson << ";";
+	file_exam << ";";
+}
+
+void Trainee::checkDate(int &year, int &month, int &day)
+{
+	if (month == 2)
+	{
+		if (year % 4 == 0)
+		{
+			if (day > 29)
+			{
+				++month;
+				day = day % 29 + 1;
+			}
+		}
+		else if (day > 28)
+		{
+			++month;
+			day = day % 28 + 1;
+		}
+	}
+	else if (month == 12)
+	{
+		if (day > 31)
+		{
+			++year;
+			month = 1;
+			day = day % 31 + 1;
+		}
+	}
+	else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10)
+	{
+		if (day > 31)
+		{
+			++month;
+			day = day % 31 + 1;
+		}
+	}
+	else if (day > 30)
+	{
+		++month;
+		day = day % 30 + 1;
+	}
 }
