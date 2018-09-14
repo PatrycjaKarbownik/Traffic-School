@@ -1,9 +1,12 @@
 INSERT INTO ADDRESS (City, Street, Building_number, Flat_number)
-SELECT 'Nowy Dwor Mazowiecki', 'Paderewskiego', 40, 38 FROM dual
-UNION ALL SELECT 'Nowy Dwor Mazowiecki', 'Modlinska', 63, 31 FROM dual
-UNION ALL SELECT 'Pomiechowek', 'Broniewskiego', 97, 3 FROM dual
-UNION ALL SELECT 'Nowy Dwor Mazowiecki', 'Mickiewicza', 45, 44 FROM dual
-UNION ALL SELECT 'Leoncin', 'Polna', 85, 23 FROM dual
-UNION ALL SELECT 'Pomiechowek', 'Nasielska', 96, NULL FROM dual
-UNION ALL SELECT 'Nowy Dwor Mazowiecki', 'Wojska Polskiego', 76, 4 FROM dual
-UNION ALL SELECT 'Czosnow', 'Warszawska', 7, 32 FROM dual
+SELECT 'Nowy Dwor Mazowiecki', 'Inzynierska', 80, 7 FROM dual
+UNION ALL SELECT 'Czosnow', 'Strazacka', 40, NULL FROM dual
+UNION ALL SELECT 'Nowy Dwor Mazowiecki', 'Morawicza', 9, NULL FROM dual
+UNION ALL SELECT 'Pomiechowek', 'Wojska Polskiego', 38, NULL FROM dual
+UNION ALL SELECT 'Zakroczym', 'Kapitana Tadeusza Doranta', 73, 16 FROM dual
+UNION ALL SELECT 'Nowy Dwor Mazowiecki', 'Morawicza', 18, 8 FROM dual
+UNION ALL SELECT 'Pomiechowek', 'Nasielska', 29, 13 FROM dual
+UNION ALL SELECT 'Zakroczym', 'Galachy', 46, 22 FROM dual
+UNION ALL SELECT 'Pomiechowek', 'Kolejowa', 69, 27 FROM dual
+UNION ALL SELECT 'Leoncin', 'Polna', 70, 8 FROM dual
+;

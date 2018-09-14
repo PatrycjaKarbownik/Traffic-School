@@ -1,9 +1,12 @@
 INSERT INTO TRAINEE (Pesel, Starting_date)
-SELECT '70101400044', to_date('2015-06-04', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '85062500127', to_date('2014-09-25', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '89020500251', to_date('2014-09-04', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '84080300351', to_date('2015-12-11', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '60081000425', to_date('2014-10-16', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '83091200550', to_date('2015-05-14', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '77120700632', to_date('2016-07-09', 'yyyy-mm-dd') FROM dual
-UNION ALL SELECT '68050100717', to_date('2018-08-03', 'yyyy-mm-dd') FROM dual
+SELECT '77070900053', to_date('2018-08-24', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '82092400105', to_date('2015-01-29', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '88111600280', to_date('2016-04-17', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '71031600384', to_date('2014-11-06', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '83100700487', to_date('2016-05-28', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '65110600515', to_date('2016-02-13', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '81010300641', to_date('2016-12-24', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '61072600720', to_date('2017-04-08', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '67011200875', to_date('2017-11-25', 'yyyy-mm-dd') FROM dual
+UNION ALL SELECT '64091100926', to_date('2014-07-03', 'yyyy-mm-dd') FROM dual
+;

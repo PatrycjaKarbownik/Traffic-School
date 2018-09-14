@@ -3,6 +3,7 @@
 #include <ctime>
 #include <fstream>
 #include <string>
+#include <iostream>
 
 /*
 int year, month, day;
