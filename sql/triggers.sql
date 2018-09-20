@@ -60,3 +60,24 @@ BEGIN
 	:new.ID_lesson := lesson_ID_lesson_seq.nextval;
 END;
 /
+
+
+
+CREATE OR REPLACE TRIGGER lesson_Finish_time_trg BEFORE
+	INSERT ON LESSON
+	FOR EACH ROW
+DECLARE
+area_n varchar2(20);
+area_duration INTEGER;
+BEGIN
+	area_n := :new.Area_name;
+	
+	BEGIN
+		SELECT How_long INTO area_duration
+		FROM AREA
+		WHERE AREA.Area_name = area_n;
+	END;
+	
+	:new.Finish_time := :new.Starting_time + area_duration;
+END;
+/

@@ -28,3 +28,4 @@ INSERT INTO EXAM (E_date, ID_word, ID_trn, E_type, Pass_or_not)
 	SELECT '2014-12-01', 1, 1, 'theory', 'pass' FROM dual
 	UNION ALL SELECT '2014-12-01', 1, 1, 'practice', 'not' FROM dual
 	UNION ALL SELECT '2014-12-21', 1, 1, 'practice', 'pass' FROM dual
+	;

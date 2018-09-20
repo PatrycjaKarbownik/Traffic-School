@@ -138,14 +138,14 @@ void Trainee::traineeScript(int how_many)
 		starting_date.push_back("'2018-03-30'");
 		starting_date.push_back("'2018-04-20'");
 		starting_date.push_back("'2018-05-11'");
-		starting_date.push_back("'2018-06-01'");
+		/*starting_date.push_back("'2018-06-01'");
 		starting_date.push_back("'2018-06-22'");
 		starting_date.push_back("'2018-07-13'");
 		starting_date.push_back("'2018-08-03'");
 		starting_date.push_back("'2018-08-24'");
 		starting_date.push_back("'2018-09-14'");
 		starting_date.push_back("'2018-10-05'");
-		starting_date.push_back("'2018-10-26'");
+		starting_date.push_back("'2018-10-26'");*/
 	}
 
 	//ciy_street
@@ -320,7 +320,9 @@ void Trainee::traineeScript(int how_many)
 			}
 
 			area_no = rand() % 4 + 2;
-			ID_word = (area_no + 2) % 5 + 1;
+
+			if (area_no == 2) ID_word = 4;
+			else ID_word = (area_no + 2) % 5 + 1;
 
 			if (area_no == 3) ID_veh = 4;
 

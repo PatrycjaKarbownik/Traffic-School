@@ -1,3 +1,6 @@
+// Script which generates data to database
+// Author: Patrycja Karbownik
+
 #include <iostream>
 #include "Address.h"
 #include "Trainee.h"
