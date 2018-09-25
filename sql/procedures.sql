@@ -41,3 +41,11 @@ END;
 execute pass_internal_exam(xxx);
 
 
+------------------------------ZROBIC, WIECEJ DANYCH. TYP, KIEDY, KOMU
+CREATE OR REPLACE PROCEDURE pass_exam_word(pesel_out VARCHAR2)
+IS
+BEGIN
+	UPDATE EXAM
+	SET Pass_or_not = 'T'
+	WHERE Pesel = pesel_out AND Pass_or_not = 'F';
+END;
