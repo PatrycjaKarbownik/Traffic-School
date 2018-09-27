@@ -1,3 +1,6 @@
+package application;
+
+import application.AppWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
