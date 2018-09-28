@@ -1,0 +1,31 @@
+.button {
+	-fx-font-size: 12;
+	-fx-font-weight: bold;
+	-fx-background-color: grey;
+	-fx-text-fill: black;
+}
+
+.title {
+	-fx-font-size: 32;
+	-fx-font-weight: bold;
+	/*-fx-border-color: white;*/
+	-fx-text-fill: lightgray;
+	-fx-alignment: center;
+}
+
+.label_1 {
+	-fx-font-size: 13;
+	-fx-font-weight: bold;
+	/*-fx-border-color: white; */
+	-fx-background-color: black;
+	-fx-text-fill: lightgray;
+	-fx-alignment: center_right;
+}
+
+.textField {
+	-fx-font-size: 13;
+	-fx-font-weight: bold;
+	-fx-border-color: white;
+	-fx-background-color: black;
+	-fx-text-fill: lightgray;
+}
