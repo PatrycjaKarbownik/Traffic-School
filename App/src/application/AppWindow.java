@@ -2,10 +2,7 @@ package application;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -43,7 +40,9 @@ public class AppWindow {
     private static Label startingDateLabel = new Label("Starting date:");
     private static ComboBox startingDateCombo;
     private static Label theoryLabel = new Label("Theory:");
+    private static CheckBox theoryCheckBox = new CheckBox();
     private static Label internalExamLabel = new Label("Internal exam:");
+    private static CheckBox internalCheckBox = new CheckBox();
 
     private static Paint textColor = Color.LIGHTGRAY;
     public static final int sizeOfSquare = 30;
@@ -52,9 +51,9 @@ public class AppWindow {
         primaryStage.setTitle("Traffic School \"Brum, Brum\"");
         primaryStage.getIcons().add(new Image(AppWindow.class.getResource("/data/logo.png").toExternalForm()));
 
-        //   Group panel = createBasicGroup();
+           Group panel = createBasicGroup();
 
-        Group panel = createAddGroup();
+     //   Group panel = createAddGroup();
 
         Scene scene = new Scene(panel, 38 * sizeOfSquare, 16 * sizeOfSquare, Color.BLACK);
         scene.getStylesheets().add("/data/stylesheet.css");
@@ -101,6 +100,10 @@ public class AppWindow {
 
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
+
+
+
+
 
 
         group.getChildren().add(schoolNameLabel);
@@ -190,13 +193,20 @@ public class AppWindow {
 
 
         theoryLabel.getStyleClass().add("label_1");
-        theoryLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
+        theoryLabel.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         theoryLabel.relocate(26 * sizeOfSquare, 7 * sizeOfSquare);
-
+        theoryCheckBox.getStyleClass().add("checkBox");
+        theoryCheckBox.setPrefSize(1*sizeOfSquare, 1*sizeOfSquare);
+        theoryCheckBox.relocate(31*sizeOfSquare, 7*sizeOfSquare);
 
         internalExamLabel.getStyleClass().add("label_1");
-        internalExamLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
+        internalExamLabel.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         internalExamLabel.relocate(26 * sizeOfSquare, 9 * sizeOfSquare);
+        internalCheckBox.getStyleClass().add("checkBox");
+        internalCheckBox.setPrefSize(1*sizeOfSquare, 1*sizeOfSquare);
+        internalCheckBox.relocate(31*sizeOfSquare, 9*sizeOfSquare);
+
+
 
 
         startingDateLabel.getStyleClass().add("label_1");
@@ -230,7 +240,9 @@ public class AppWindow {
         group.getChildren().add(flatNoLabel);
         group.getChildren().add(flatNoText);
         group.getChildren().add(theoryLabel);
+        group.getChildren().add(theoryCheckBox);
         group.getChildren().add(internalExamLabel);
+        group.getChildren().add(internalCheckBox);
         group.getChildren().add(startingDateLabel);
         group.getChildren().add(startingDateCombo);
 
@@ -243,7 +255,7 @@ public class AppWindow {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
-        comboBox.getStyleClass().add("button");
+        comboBox.getStyleClass().add("comboBox");
 
         if (create) {
             comboBox.setValue("<choose " + what + ">");
@@ -257,7 +269,7 @@ public class AppWindow {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(2.5 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
-        comboBox.getStyleClass().add("button");
+        comboBox.getStyleClass().add("comboBox");
 
         if (what == "year") {
             comboBox.setValue("yyyy");

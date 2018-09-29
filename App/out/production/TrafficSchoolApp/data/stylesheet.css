@@ -1,5 +1,5 @@
 .button {
-	-fx-font-size: 12;
+	-fx-font-size: 14;
 	-fx-font-weight: bold;
 	-fx-background-color: grey;
 	-fx-text-fill: black;
@@ -14,7 +14,7 @@
 }
 
 .label_1 {
-	-fx-font-size: 13;
+	-fx-font-size: 14;
 	-fx-font-weight: bold;
 	/*-fx-border-color: white; */
 	-fx-background-color: black;
@@ -23,9 +23,23 @@
 }
 
 .textField {
-	-fx-font-size: 13;
+	-fx-font-size: 14;
 	-fx-font-weight: bold;
-	-fx-border-color: white;
+	-fx-border-color: lightgray;
 	-fx-background-color: black;
 	-fx-text-fill: lightgray;
 }
+
+.comboBox {
+	-fx-font-size: 12;
+	-fx-font-weight: bold;
+	-fx-border-color: lightgray;
+	-fx-background-color: black;
+	-fx-text-fill: white;
+}
+
+.checkBox {
+
+}
+
+
