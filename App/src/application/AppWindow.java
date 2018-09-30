@@ -22,6 +22,16 @@ public class AppWindow {
     private static TextField peselText = new TextField();
     private static Label tableHeadLabel = new Label("Surname_Name_PESEL_City_Street_BuildingNo_FlatNo");
 
+    private static TableView table = new TableView();
+    private static TableColumn surnameCol = new TableColumn("Surname");
+    private static TableColumn nameCol = new TableColumn("Name");
+    private static TableColumn peselCol = new TableColumn("PESEL");
+    private static TableColumn cityCol = new TableColumn("City");
+    private static TableColumn streetCol = new TableColumn("Street");
+    private static TableColumn buildingCol = new TableColumn("Building no.");
+    private static TableColumn flatCol = new TableColumn("Flat no.");
+
+
     private static Button searchButton = new Button("Search");
     private static Button addButton = new Button("Add");
 
@@ -51,9 +61,9 @@ public class AppWindow {
         primaryStage.setTitle("Traffic School \"Brum, Brum\"");
         primaryStage.getIcons().add(new Image(AppWindow.class.getResource("/data/logo.png").toExternalForm()));
 
-           Group panel = createBasicGroup();
+        Group panel = createBasicGroup();
 
-     //   Group panel = createAddGroup();
+        //      Group panel = createAddGroup();
 
         Scene scene = new Scene(panel, 38 * sizeOfSquare, 16 * sizeOfSquare, Color.BLACK);
         scene.getStylesheets().add("/data/stylesheet.css");
@@ -77,21 +87,18 @@ public class AppWindow {
         surnameLabel.getStyleClass().add("label_1");
         surnameLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         surnameLabel.relocate(2 * sizeOfSquare, 5 * sizeOfSquare);
-        surnameText.getStyleClass().add("textField");
         surnameText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         surnameText.relocate(6 * sizeOfSquare, 5 * sizeOfSquare);
 
         nameLabel.getStyleClass().add("label_1");
         nameLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         nameLabel.relocate(14 * sizeOfSquare, 5 * sizeOfSquare);
-        nameText.getStyleClass().add("textField");
         nameText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         nameText.relocate(18 * sizeOfSquare, 5 * sizeOfSquare);
 
         peselLabel.getStyleClass().add("label_1");
         peselLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         peselLabel.relocate(26 * sizeOfSquare, 5 * sizeOfSquare);
-        peselText.getStyleClass().add("textField");
         peselText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         peselText.relocate(30 * sizeOfSquare, 5 * sizeOfSquare);
 
@@ -101,9 +108,17 @@ public class AppWindow {
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
 
+        surnameCol.setPrefWidth(4 * sizeOfSquare);
+        nameCol.setPrefWidth(4 * sizeOfSquare);
+        peselCol.setPrefWidth(4 * sizeOfSquare);
+        cityCol.setPrefWidth(4 * sizeOfSquare);
+        streetCol.setPrefWidth(4 * sizeOfSquare);
+        buildingCol.setPrefWidth(4 * sizeOfSquare);
+        flatCol.setPrefWidth(3 * sizeOfSquare);
 
-
-
+        table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
+        table.setPrefSize(27 * sizeOfSquare, 6 * sizeOfSquare);
+        table.relocate(2 * sizeOfSquare, 8 * sizeOfSquare);
 
 
         group.getChildren().add(schoolNameLabel);
@@ -114,6 +129,7 @@ public class AppWindow {
         group.getChildren().add(nameText);
         group.getChildren().add(peselLabel);
         group.getChildren().add(peselText);
+        group.getChildren().add(table);
         group.getChildren().add(searchButton);
         group.getChildren().add(addButton);
         return group;
@@ -134,14 +150,12 @@ public class AppWindow {
         surnameLabel.getStyleClass().add("label_1");
         surnameLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         surnameLabel.relocate(2 * sizeOfSquare, 5 * sizeOfSquare);
-        surnameText.getStyleClass().add("textField");
         surnameText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         surnameText.relocate(6 * sizeOfSquare, 5 * sizeOfSquare);
 
         nameLabel.getStyleClass().add("label_1");
         nameLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         nameLabel.relocate(2 * sizeOfSquare, 7 * sizeOfSquare);
-        nameText.getStyleClass().add("textField");
         nameText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         nameText.relocate(6 * sizeOfSquare, 7 * sizeOfSquare);
 
@@ -149,16 +163,15 @@ public class AppWindow {
         birthdayLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         birthdayLabel.relocate(2 * sizeOfSquare, 9 * sizeOfSquare);
         yearCombo = createBirthdayComboBox("year");
-        yearCombo.relocate(5.25*sizeOfSquare, 9*sizeOfSquare);
+        yearCombo.relocate(5.25 * sizeOfSquare, 9 * sizeOfSquare);
         monthCombo = createBirthdayComboBox("month");
-        monthCombo.relocate(7.75*sizeOfSquare, 9*sizeOfSquare);
+        monthCombo.relocate(7.75 * sizeOfSquare, 9 * sizeOfSquare);
         dayCombo = createBirthdayComboBox("day");
-        dayCombo.relocate(10.25*sizeOfSquare, 9*sizeOfSquare);
+        dayCombo.relocate(10.25 * sizeOfSquare, 9 * sizeOfSquare);
 
         peselLabel.getStyleClass().add("label_1");
         peselLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         peselLabel.relocate(2 * sizeOfSquare, 11 * sizeOfSquare);
-        peselText.getStyleClass().add("textField");
         peselText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         peselText.relocate(6 * sizeOfSquare, 11 * sizeOfSquare);
 
@@ -178,35 +191,27 @@ public class AppWindow {
         buildingNoLabel.getStyleClass().add("label_1");
         buildingNoLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         buildingNoLabel.relocate(14 * sizeOfSquare, 9 * sizeOfSquare);
-        buildingNoText.getStyleClass().add("textField");
         buildingNoText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         buildingNoText.relocate(18 * sizeOfSquare, 9 * sizeOfSquare);
 
         flatNoLabel.getStyleClass().add("label_1");
         flatNoLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         flatNoLabel.relocate(14 * sizeOfSquare, 11 * sizeOfSquare);
-        flatNoText.getStyleClass().add("textField");
         flatNoText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         flatNoText.relocate(18 * sizeOfSquare, 11 * sizeOfSquare);
-
-
 
 
         theoryLabel.getStyleClass().add("label_1");
         theoryLabel.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         theoryLabel.relocate(26 * sizeOfSquare, 7 * sizeOfSquare);
-        theoryCheckBox.getStyleClass().add("checkBox");
-        theoryCheckBox.setPrefSize(1*sizeOfSquare, 1*sizeOfSquare);
-        theoryCheckBox.relocate(31*sizeOfSquare, 7*sizeOfSquare);
+        theoryCheckBox.setPrefSize(1 * sizeOfSquare, 1 * sizeOfSquare);
+        theoryCheckBox.relocate(31 * sizeOfSquare, 7 * sizeOfSquare);
 
         internalExamLabel.getStyleClass().add("label_1");
         internalExamLabel.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         internalExamLabel.relocate(26 * sizeOfSquare, 9 * sizeOfSquare);
-        internalCheckBox.getStyleClass().add("checkBox");
-        internalCheckBox.setPrefSize(1*sizeOfSquare, 1*sizeOfSquare);
-        internalCheckBox.relocate(31*sizeOfSquare, 9*sizeOfSquare);
-
-
+        internalCheckBox.setPrefSize(1 * sizeOfSquare, 1 * sizeOfSquare);
+        internalCheckBox.relocate(31 * sizeOfSquare, 9 * sizeOfSquare);
 
 
         startingDateLabel.getStyleClass().add("label_1");
@@ -255,7 +260,6 @@ public class AppWindow {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
-        comboBox.getStyleClass().add("comboBox");
 
         if (create) {
             comboBox.setValue("<choose " + what + ">");
@@ -269,17 +273,16 @@ public class AppWindow {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(2.5 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
-        comboBox.getStyleClass().add("comboBox");
 
         if (what == "year") {
             comboBox.setValue("yyyy");
-            for(int i=50; i<=99; ++i)
+            for (int i = 50; i <= 99; ++i)
                 comboBox.getItems().add("19" + i);
 
-        } else if(what == "month") {
+        } else if (what == "month") {
             comboBox.setValue("mm");
 
-            for(int i=1; i<=12; ++i)
+            for (int i = 1; i <= 12; ++i)
                 comboBox.getItems().add(i);
 
         } else {
@@ -287,7 +290,7 @@ public class AppWindow {
             //w zaleznosci od miesiaca
             int day = 31;
 
-            for(int i=1; i<=day; ++i)
+            for (int i = 1; i <= day; ++i)
                 comboBox.getItems().add(i);
         }
 

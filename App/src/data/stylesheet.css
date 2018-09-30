@@ -22,7 +22,7 @@
 	-fx-alignment: center_right;
 }
 
-.textField {
+.text-field {
 	-fx-font-size: 14;
 	-fx-font-weight: bold;
 	-fx-border-color: lightgray;
@@ -30,7 +30,7 @@
 	-fx-text-fill: lightgray;
 }
 
-.comboBox {
+.combo-box {
 	-fx-font-size: 12;
 	-fx-font-weight: bold;
 	-fx-border-color: lightgray;
@@ -38,7 +38,29 @@
 	-fx-text-fill: white;
 }
 
-.checkBox {
+.table-view {
+	-fx-font-size: 14;
+	-fx-font-weight: bold;
+	-fx-border-color: white;
+	-fx-text-fill: lightgray;
+	-fx-background-color: black;
+	-fx-alignment: center;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: lightgray;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.check-box {
 
 }
 
