@@ -1,5 +1,6 @@
 package application;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,6 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import model.Trainee;
+import model.TraineeAction;
+
+import java.sql.SQLException;
 
 public class AppWindow {
 
@@ -74,6 +79,7 @@ public class AppWindow {
 
     private Group createBasicGroup() {
         Group group = new Group();
+        ObservableList<Trainee> traineeList;
 
         schoolNameLabel.getStyleClass().add("title");
         schoolNameLabel.setPrefSize(/*29*/ 34 * sizeOfSquare, 2 * sizeOfSquare);
@@ -102,12 +108,6 @@ public class AppWindow {
         peselText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         peselText.relocate(30 * sizeOfSquare, 5 * sizeOfSquare);
 
-        searchButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
-        searchButton.relocate(32 * sizeOfSquare, 7 * sizeOfSquare);
-
-        addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
-        addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
-
         surnameCol.setPrefWidth(4 * sizeOfSquare);
         nameCol.setPrefWidth(4 * sizeOfSquare);
         peselCol.setPrefWidth(4 * sizeOfSquare);
@@ -120,6 +120,33 @@ public class AppWindow {
         table.setPrefSize(27 * sizeOfSquare, 6 * sizeOfSquare);
         table.relocate(2 * sizeOfSquare, 8 * sizeOfSquare);
 
+        searchButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
+        searchButton.relocate(32 * sizeOfSquare, 7 * sizeOfSquare);
+        searchButton.setOnAction(e-> {
+            try {
+                String surr = null, namee = null, pes = null;
+                if(!surnameText.getText().trim().isEmpty()) surr = surnameText.getText();
+                if(!nameText.getText().trim().isEmpty()) namee = nameText.getText();
+                if(!peselText.getText().trim().isEmpty()) pes = peselText.getText();
+
+                Actions.searchTrainee(surr, namee, pes);
+            } catch (SQLException | ClassNotFoundException e1) {
+                System.out.println("App - SQL or Class" + e1);
+            }
+        });
+
+        traineeList = Actions.getTraineeList();
+
+
+
+        for (Trainee trainee : traineeList) {
+            System.out.println("S: " + trainee.getSurname() + " N: " +  trainee.getName() + " P: " + trainee.getPesel());
+        }
+
+
+
+        addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
+        addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
 
         group.getChildren().add(schoolNameLabel);
         group.getChildren().add(logo);
