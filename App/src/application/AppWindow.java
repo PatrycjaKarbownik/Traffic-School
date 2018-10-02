@@ -62,13 +62,16 @@ public class AppWindow {
     private static Paint textColor = Color.LIGHTGRAY;
     public static final int sizeOfSquare = 30;
 
-    AppWindow(Stage primaryStage) {
+    AppWindow(Stage primaryStage, String what) {
         primaryStage.setTitle("Traffic School \"Brum, Brum\"");
         primaryStage.getIcons().add(new Image(AppWindow.class.getResource("/data/logo.png").toExternalForm()));
 
-        Group panel = createBasicGroup();
+        Group panel = null;
 
-        //      Group panel = createAddGroup();
+        if (what == "basic") panel = createBasicGroup(primaryStage);
+        else if (what == "add") panel = createAddGroup(primaryStage);
+
+       //       Group panel = createAddGroup();
 
         Scene scene = new Scene(panel, 38 * sizeOfSquare, 16 * sizeOfSquare, Color.BLACK);
         scene.getStylesheets().add("/data/stylesheet.css");
@@ -77,7 +80,7 @@ public class AppWindow {
         primaryStage.show();
     }
 
-    private Group createBasicGroup() {
+    private Group createBasicGroup(Stage primaryStage) {
         Group group = new Group();
 
         schoolNameLabel.getStyleClass().add("title");
@@ -115,7 +118,6 @@ public class AppWindow {
         buildingCol.setPrefWidth(4 * sizeOfSquare);
         flatCol.setPrefWidth(3 * sizeOfSquare);
 
-        //table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
         table.setPrefSize(27 * sizeOfSquare, 6 * sizeOfSquare);
         table.relocate(2 * sizeOfSquare, 8 * sizeOfSquare);
 
@@ -127,6 +129,7 @@ public class AppWindow {
         buildingCol.setCellValueFactory(new PropertyValueFactory<Trainee, Integer>("building_no"));
         flatCol.setCellValueFactory(new PropertyValueFactory<Trainee, Integer>("flat_no"));
 
+        table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
 
         searchButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         searchButton.relocate(32 * sizeOfSquare, 7 * sizeOfSquare);
@@ -146,11 +149,9 @@ public class AppWindow {
             }
         });
 
-        table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
-
-
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
+        addButton.setOnAction(e-> new AppWindow(primaryStage, "add"));
 
         group.getChildren().add(schoolNameLabel);
         group.getChildren().add(logo);
@@ -166,7 +167,7 @@ public class AppWindow {
         return group;
     }
 
-    private Group createAddGroup() {
+    private Group createAddGroup(Stage primaryStage) {
         Group group = new Group();
 
         schoolNameLabel.getStyleClass().add("title");

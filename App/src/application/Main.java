@@ -22,6 +22,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        AppWindow window = new AppWindow(primaryStage);
+        AppWindow window = new AppWindow(primaryStage, "basic");
     }
 }
