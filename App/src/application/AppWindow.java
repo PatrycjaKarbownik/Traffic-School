@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -25,9 +26,8 @@ public class AppWindow {
     private static TextField nameText = new TextField();
     private static Label peselLabel = new Label("PESEL:");
     private static TextField peselText = new TextField();
-    private static Label tableHeadLabel = new Label("Surname_Name_PESEL_City_Street_BuildingNo_FlatNo");
 
-    private static TableView table = new TableView();
+    private static TableView<ObservableList<String>> table = new TableView<>();
     private static TableColumn surnameCol = new TableColumn("Surname");
     private static TableColumn nameCol = new TableColumn("Name");
     private static TableColumn peselCol = new TableColumn("PESEL");
@@ -79,7 +79,6 @@ public class AppWindow {
 
     private Group createBasicGroup() {
         Group group = new Group();
-        ObservableList<Trainee> traineeList;
 
         schoolNameLabel.getStyleClass().add("title");
         schoolNameLabel.setPrefSize(/*29*/ 34 * sizeOfSquare, 2 * sizeOfSquare);
@@ -116,9 +115,18 @@ public class AppWindow {
         buildingCol.setPrefWidth(4 * sizeOfSquare);
         flatCol.setPrefWidth(3 * sizeOfSquare);
 
-        table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
+        //table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
         table.setPrefSize(27 * sizeOfSquare, 6 * sizeOfSquare);
         table.relocate(2 * sizeOfSquare, 8 * sizeOfSquare);
+
+        surnameCol.setCellValueFactory(new PropertyValueFactory<Trainee, String>("surname"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<Trainee, String>("name"));
+        peselCol.setCellValueFactory(new PropertyValueFactory<Trainee, String>("pesel"));
+        cityCol.setCellValueFactory(new PropertyValueFactory<Trainee, String>("city"));
+        streetCol.setCellValueFactory(new PropertyValueFactory<Trainee, String>("street"));
+        buildingCol.setCellValueFactory(new PropertyValueFactory<Trainee, Integer>("building_no"));
+        flatCol.setCellValueFactory(new PropertyValueFactory<Trainee, Integer>("flat_no"));
+
 
         searchButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         searchButton.relocate(32 * sizeOfSquare, 7 * sizeOfSquare);
@@ -130,19 +138,15 @@ public class AppWindow {
                 if(!peselText.getText().trim().isEmpty()) pes = peselText.getText();
 
                 Actions.searchTrainee(surr, namee, pes);
+
+                table.itemsProperty().setValue(Actions.getTraineeList());
+
             } catch (SQLException | ClassNotFoundException e1) {
                 System.out.println("App - SQL or Class" + e1);
             }
         });
 
-        traineeList = Actions.getTraineeList();
-
-
-
-        for (Trainee trainee : traineeList) {
-            System.out.println("S: " + trainee.getSurname() + " N: " +  trainee.getName() + " P: " + trainee.getPesel());
-        }
-
+        table.getColumns().addAll(surnameCol, nameCol, peselCol, cityCol, streetCol, buildingCol, flatCol);
 
 
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
