@@ -39,6 +39,7 @@ public class AppWindow {
 
     private static Button searchButton = new Button("Search");
     private static Button addButton = new Button("Add");
+    private static Button undoButton = new Button("Undo");
 
     private static Label birthdayLabel = new Label("Birthday:");
     private static ComboBox yearCombo;
@@ -71,7 +72,6 @@ public class AppWindow {
         if (what == "basic") panel = createBasicGroup(primaryStage);
         else if (what == "add") panel = createAddGroup(primaryStage);
 
-       //       Group panel = createAddGroup();
 
         Scene scene = new Scene(panel, 38 * sizeOfSquare, 16 * sizeOfSquare, Color.BLACK);
         scene.getStylesheets().add("/data/stylesheet.css");
@@ -207,12 +207,14 @@ public class AppWindow {
         peselText.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         peselText.relocate(6 * sizeOfSquare, 11 * sizeOfSquare);
 
-
         cityLabel.getStyleClass().add("label_1");
         cityLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         cityLabel.relocate(14 * sizeOfSquare, 5 * sizeOfSquare);
         cityCombo = createComboBox(true, "city");
         cityCombo.relocate(18 * sizeOfSquare, 5 * sizeOfSquare);
+
+
+
 
         streetLabel.getStyleClass().add("label_1");
         streetLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
@@ -256,6 +258,10 @@ public class AppWindow {
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
 
+        undoButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
+        undoButton.relocate(26 * sizeOfSquare, 14 * sizeOfSquare);
+        undoButton.setOnAction(e-> new AppWindow(primaryStage, "basic"));
+
         group.getChildren().add(schoolNameLabel);
         group.getChildren().add(logo);
         group.getChildren().add(surnameLabel);
@@ -284,6 +290,7 @@ public class AppWindow {
         group.getChildren().add(startingDateCombo);
 
         group.getChildren().add(addButton);
+        group.getChildren().add(undoButton);
 
         return group;
     }
@@ -292,11 +299,24 @@ public class AppWindow {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
+        ObservableList<String> list = null;
 
         if (create) {
             comboBox.setValue("<choose " + what + ">");
             comboBox.getItems().add("<new>");
         }
+
+        try {
+            if(what == "city") list = Actions.getCityList();
+            if(what == "street") list = Actions.getStreetList();
+            if(what == "starting date") list = Actions.getStartingDateList();
+            comboBox.itemsProperty().setValue(list);
+        } catch (SQLException e) {
+            System.out.println("App createCB - SQL: " + e);
+        } catch (ClassNotFoundException e) {
+            System.out.println("App createCB - CNFE: " + e);
+        }
+
 
         return comboBox;
     }
