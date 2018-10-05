@@ -16,9 +16,9 @@ public class TraineeAction {
                 "       FROM PERSON P, TRAINEE T, ADDRESS A " +
                 "       WHERE T.Pesel = P.Pesel AND P.Id_addr = A.Id_addr";
 
-        if(surname != null) query += " AND P.Surname = '" + surname + "'";
-        if(name != null) query += " AND P.Name = '" + name + "'";
-        if(pesel != null) query += " AND T.Pesel = '" + pesel + "'";
+        if (surname != null) query += " AND P.Surname = '" + surname + "'";
+        if (name != null) query += " AND P.Name = '" + name + "'";
+        if (pesel != null) query += " AND T.Pesel = '" + pesel + "'";
         //query += ";";
 
         System.out.println(query);

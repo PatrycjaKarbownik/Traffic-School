@@ -44,6 +44,7 @@ public class AppWindow {
     private static Label birthdayLabel = new Label("Birthday:");
     private static ComboBox yearCombo;
     private static ComboBox monthCombo;
+    private static String month;
     private static ComboBox dayCombo;
     private static Label cityLabel = new Label("City:");
     private static ComboBox cityCombo;
@@ -133,12 +134,12 @@ public class AppWindow {
 
         searchButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         searchButton.relocate(32 * sizeOfSquare, 7 * sizeOfSquare);
-        searchButton.setOnAction(e-> {
+        searchButton.setOnAction(e -> {
             try {
                 String surr = null, namee = null, pes = null;
-                if(!surnameText.getText().trim().isEmpty()) surr = surnameText.getText();
-                if(!nameText.getText().trim().isEmpty()) namee = nameText.getText();
-                if(!peselText.getText().trim().isEmpty()) pes = peselText.getText();
+                if (!surnameText.getText().trim().isEmpty()) surr = surnameText.getText();
+                if (!nameText.getText().trim().isEmpty()) namee = nameText.getText();
+                if (!peselText.getText().trim().isEmpty()) pes = peselText.getText();
 
                 Actions.searchTrainee(surr, namee, pes);
 
@@ -151,7 +152,7 @@ public class AppWindow {
 
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
-        addButton.setOnAction(e-> new AppWindow(primaryStage, "add"));
+        addButton.setOnAction(e -> new AppWindow(primaryStage, "add"));
 
         group.getChildren().add(schoolNameLabel);
         group.getChildren().add(logo);
@@ -196,10 +197,24 @@ public class AppWindow {
         birthdayLabel.relocate(2 * sizeOfSquare, 9 * sizeOfSquare);
         yearCombo = createBirthdayComboBox("year");
         yearCombo.relocate(5.25 * sizeOfSquare, 9 * sizeOfSquare);
+        yearCombo.setOnAction(e -> {
+            if (!monthCombo.isDisable()) {
+                dayUpdate();
+            } else if (yearCombo.getValue().toString() != "yyyy") monthCombo.setDisable(false);
+        });
+
         monthCombo = createBirthdayComboBox("month");
         monthCombo.relocate(7.75 * sizeOfSquare, 9 * sizeOfSquare);
+        monthCombo.setDisable(true);
+        monthCombo.setOnAction(e -> {
+            if (monthCombo.getValue().toString() != "mm") dayCombo.setDisable(false);
+            dayUpdate();
+        });
+
         dayCombo = createBirthdayComboBox("day");
         dayCombo.relocate(10.25 * sizeOfSquare, 9 * sizeOfSquare);
+        dayCombo.setDisable(true);
+
 
         peselLabel.getStyleClass().add("label_1");
         peselLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
@@ -210,16 +225,13 @@ public class AppWindow {
         cityLabel.getStyleClass().add("label_1");
         cityLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         cityLabel.relocate(14 * sizeOfSquare, 5 * sizeOfSquare);
-        cityCombo = createComboBox(true, "city");
+        cityCombo = createComboBox("city");
         cityCombo.relocate(18 * sizeOfSquare, 5 * sizeOfSquare);
-
-
-
 
         streetLabel.getStyleClass().add("label_1");
         streetLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         streetLabel.relocate(14 * sizeOfSquare, 7 * sizeOfSquare);
-        streetCombo = createComboBox(true, "street");
+        streetCombo = createComboBox("street");
         streetCombo.relocate(18 * sizeOfSquare, 7 * sizeOfSquare);
 
         buildingNoLabel.getStyleClass().add("label_1");
@@ -251,7 +263,7 @@ public class AppWindow {
         startingDateLabel.getStyleClass().add("label_1");
         startingDateLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         startingDateLabel.relocate(14 * sizeOfSquare, 13 * sizeOfSquare);
-        startingDateCombo = createComboBox(true, "starting date");
+        startingDateCombo = createComboBox("starting date");
         startingDateCombo.relocate(18 * sizeOfSquare, 13 * sizeOfSquare);
 
 
@@ -260,7 +272,7 @@ public class AppWindow {
 
         undoButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         undoButton.relocate(26 * sizeOfSquare, 14 * sizeOfSquare);
-        undoButton.setOnAction(e-> new AppWindow(primaryStage, "basic"));
+        undoButton.setOnAction(e -> new AppWindow(primaryStage, "basic"));
 
         group.getChildren().add(schoolNameLabel);
         group.getChildren().add(logo);
@@ -295,27 +307,27 @@ public class AppWindow {
         return group;
     }
 
-    private ComboBox createComboBox(boolean create, String what) {
+    private ComboBox createComboBox(String what) {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
         ObservableList<String> list = null;
 
-        if (create) {
-            comboBox.setValue("<choose " + what + ">");
-            comboBox.getItems().add("<new>");
-        }
-
         try {
-            if(what == "city") list = Actions.getCityList();
-            if(what == "street") list = Actions.getStreetList();
-            if(what == "starting date") list = Actions.getStartingDateList();
+            if (what == "city") list = Actions.getCityList();
+            if (what == "street") list = Actions.getStreetList();
+            if (what == "starting date") list = Actions.getStartingDateList();
             comboBox.itemsProperty().setValue(list);
         } catch (SQLException e) {
             System.out.println("App createCB - SQL: " + e);
         } catch (ClassNotFoundException e) {
             System.out.println("App createCB - CNFE: " + e);
         }
+
+        comboBox.setValue("<choose " + what + ">");
+        comboBox.getItems().add("<new>");
+
+        // comboBox.getItems().remove("<new>");
 
 
         return comboBox;
@@ -347,5 +359,30 @@ public class AppWindow {
         }
 
         return comboBox;
+    }
+
+    private void dayUpdate() {
+        month = monthCombo.getValue().toString();
+        ObservableList<String> list = dayCombo.getItems();
+        int year = Integer.parseInt(yearCombo.getValue().toString().trim());
+        if (month.compareTo("2") == 0 || month.compareTo("4") == 0
+                || month.compareTo("6") == 0 || month.compareTo("9") == 0
+                || month.compareTo("11") == 0) {
+            if (list.size() == 31) dayCombo.getItems().remove(30); //31
+            if (month.compareTo("2") == 0) {
+                if (list.size() > 28) {
+                    if (list.size() == 30) dayCombo.getItems().remove(29); //30
+                    if (year % 4 != 0 && list.size() == 29)
+                        dayCombo.getItems().remove(28); //29
+                } else if (list.size() == 28 && year % 4 == 0) dayCombo.getItems().add(29);
+            } else {
+                if (list.size() == 28) dayCombo.getItems().add(29);
+                if (list.size() == 29) dayCombo.getItems().add(30);
+            }
+        } else {
+            if (list.size() == 28) dayCombo.getItems().add(29);
+            if (list.size() == 29) dayCombo.getItems().add(30);
+            if (list.size() == 30) dayCombo.getItems().add(31);
+        }
     }
 }
