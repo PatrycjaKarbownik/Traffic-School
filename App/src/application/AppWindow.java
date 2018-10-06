@@ -12,9 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.Trainee;
-import model.TraineeAction;
 
-import javax.xml.soap.Text;
 import java.sql.SQLException;
 
 public class AppWindow {
@@ -199,23 +197,23 @@ public class AppWindow {
         birthdayLabel.getStyleClass().add("label_1");
         birthdayLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         birthdayLabel.relocate(2 * sizeOfSquare, 9 * sizeOfSquare);
-        yearCombo = createBirthdayComboBox("year");
+        yearCombo = createDateComboBox("yearB");
         yearCombo.relocate(5.25 * sizeOfSquare, 9 * sizeOfSquare);
         yearCombo.setOnAction(e -> {
             if (!monthCombo.isDisable() && monthCombo.getValue().toString().compareTo("2") == 0) {
-                dayUpdate();
+                dayUpdate(yearCombo, monthCombo, dayCombo);
             } else if (yearCombo.getValue().toString() != "yyyy") monthCombo.setDisable(false);
         });
 
-        monthCombo = createBirthdayComboBox("month");
+        monthCombo = createDateComboBox("month");
         monthCombo.relocate(7.75 * sizeOfSquare, 9 * sizeOfSquare);
         monthCombo.setDisable(true);
         monthCombo.setOnAction(e -> {
             if (monthCombo.getValue().toString() != "mm") dayCombo.setDisable(false);
-            dayUpdate();
+            dayUpdate(yearCombo, monthCombo, dayCombo);
         });
 
-        dayCombo = createBirthdayComboBox("day");
+        dayCombo = createDateComboBox("day");
         dayCombo.relocate(10.25 * sizeOfSquare, 9 * sizeOfSquare);
         dayCombo.setDisable(true);
 
@@ -241,8 +239,8 @@ public class AppWindow {
         streetLabel.relocate(14 * sizeOfSquare, 7 * sizeOfSquare);
         streetCombo = createComboBox("street");
         streetCombo.relocate(18 * sizeOfSquare, 7 * sizeOfSquare);
-        streetCombo.setOnAction(e->{
-            if(streetCombo.getValue().toString().compareTo("<new>") == 0)
+        streetCombo.setOnAction(e -> {
+            if (streetCombo.getValue().toString().compareTo("<new>") == 0)
                 createAddNewCityOrStreetStage("street");
         });
 
@@ -277,7 +275,10 @@ public class AppWindow {
         startingDateLabel.relocate(14 * sizeOfSquare, 13 * sizeOfSquare);
         startingDateCombo = createComboBox("starting date");
         startingDateCombo.relocate(18 * sizeOfSquare, 13 * sizeOfSquare);
-
+        startingDateCombo.setOnAction(e -> {
+            if (startingDateCombo.getValue().toString().compareTo("<new>") == 0)
+                createAddNewStartingDateStage();
+        });
 
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
@@ -342,16 +343,20 @@ public class AppWindow {
         return comboBox;
     }
 
-    private ComboBox createBirthdayComboBox(String what) {
+    private ComboBox createDateComboBox(String what) {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefSize(2.5 * sizeOfSquare, 1 * sizeOfSquare);
         comboBox.setVisibleRowCount(4);
 
-        if (what == "year") {
+        if (what == "yearB") {
             comboBox.setValue("yyyy");
             for (int i = 50; i <= 99; ++i)
                 comboBox.getItems().add("19" + i);
 
+        } else if (what == "yearSD") {
+            comboBox.setValue("yyyy");
+            for (int i = 2017; i <= 2020; ++i)
+                comboBox.getItems().add(i);
         } else if (what == "month") {
             comboBox.setValue("mm");
 
@@ -368,7 +373,7 @@ public class AppWindow {
         return comboBox;
     }
 
-    private void dayUpdate() {
+    private void dayUpdate(ComboBox yearCombo, ComboBox monthCombo, ComboBox dayCombo) {
         month = monthCombo.getValue().toString();
         ObservableList<String> list = dayCombo.getItems();
         int year = Integer.parseInt(yearCombo.getValue().toString().trim());
@@ -403,38 +408,37 @@ public class AppWindow {
 
         Group panel = new Group();
         Label info = new Label("Add new " + what);
-            info.getStyleClass().add("label_1");
-            info.setAlignment(Pos.CENTER);
-            info.setWrapText(true);
-            info.setPrefSize(6*sizeOfSquare, 1*sizeOfSquare);
-            info.relocate(1*sizeOfSquare, 1*sizeOfSquare);
+        info.getStyleClass().add("label_1");
+        info.setAlignment(Pos.CENTER);
+        info.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
+        info.relocate(1 * sizeOfSquare, 1 * sizeOfSquare);
 
 
         TextField textField = new TextField();
-            textField.setPrefSize(6*sizeOfSquare, 1*sizeOfSquare);
-            textField.relocate(1*sizeOfSquare, 3*sizeOfSquare);
+        textField.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
+        textField.relocate(1 * sizeOfSquare, 3 * sizeOfSquare);
 
         Button okButton = new Button("OK");
-            okButton.setPrefSize(2 * sizeOfSquare, 1 * sizeOfSquare);
-            okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
+        okButton.setPrefSize(2 * sizeOfSquare, 1 * sizeOfSquare);
+        okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
 
-            //okButton.setOnAction(e -> );
+        //okButton.setOnAction(e -> );
 
 
         Button cancelButton = new Button("Cancel");
-            cancelButton.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
-            cancelButton.relocate(1 * sizeOfSquare, 5 * sizeOfSquare);
+        cancelButton.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
+        cancelButton.relocate(1 * sizeOfSquare, 5 * sizeOfSquare);
 
-            cancelButton.setOnAction(e -> {
-                addNewCityOrStreetStage.close();
-                if(what == "city") cityCombo.setValue("<choose " + what + ">");
-                else streetCombo.setValue("<choose " + what + ">");
+        cancelButton.setOnAction(e -> {
+            addNewCityOrStreetStage.close();
+            if (what == "city") cityCombo.setValue("<choose " + what + ">");
+            else streetCombo.setValue("<choose " + what + ">");
 
-            });
+        });
 
 
         panel.getChildren().addAll(info, textField, okButton, cancelButton);
-        Scene scene = new Scene(panel, 8*sizeOfSquare, 7*sizeOfSquare, Color.BLACK);
+        Scene scene = new Scene(panel, 8 * sizeOfSquare, 7 * sizeOfSquare, Color.BLACK);
         scene.getStylesheets().add("/data/stylesheet.css");
 
         addNewCityOrStreetStage.setScene(scene);
@@ -449,6 +453,58 @@ public class AppWindow {
         addNewStartingDateStage.setAlwaysOnTop(true);
         addNewStartingDateStage.setMaximized(false);
 
+        Group panel = new Group();
+        Label info = new Label("Add new starting date");
+        info.getStyleClass().add("label_1");
+        info.setAlignment(Pos.CENTER);
+        info.setPrefSize(6 * sizeOfSquare, 1 * sizeOfSquare);
+        info.relocate(1 * sizeOfSquare, 1 * sizeOfSquare);
 
+        ComboBox yearCo = createDateComboBox("yearSD");
+        ComboBox monthCo = createDateComboBox("month");
+        ComboBox dayCo = createDateComboBox("day");
+
+        yearCo.relocate(0.25 * sizeOfSquare, 3 * sizeOfSquare);
+        yearCo.setOnAction(e -> {
+            if (!monthCo.isDisable() && monthCo.getValue().toString().compareTo("2") == 0) {
+                dayUpdate(yearCo, monthCo, dayCo);
+            } else if (yearCo.getValue().toString() != "yyyy") monthCo.setDisable(false);
+        });
+
+        monthCo.relocate(2.75 * sizeOfSquare, 3 * sizeOfSquare);
+        monthCo.setDisable(true);
+        monthCo.setOnAction(e -> {
+            if (monthCo.getValue().toString() != "mm") dayCo.setDisable(false);
+            dayUpdate(yearCo, monthCo, dayCo);
+        });
+
+        dayCo.relocate(5.25 * sizeOfSquare, 3 * sizeOfSquare);
+        dayCo.setDisable(true);
+
+
+        Button okButton = new Button("OK");
+        okButton.setPrefSize(2 * sizeOfSquare, 1 * sizeOfSquare);
+        okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
+
+        //okButton.setOnAction(e -> );
+
+
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
+        cancelButton.relocate(1 * sizeOfSquare, 5 * sizeOfSquare);
+
+        cancelButton.setOnAction(e -> {
+            addNewStartingDateStage.close();
+            startingDateCombo.setValue("<choose starting date>");
+
+        });
+
+
+        panel.getChildren().addAll(info, yearCo, monthCo, dayCo, okButton, cancelButton);
+        Scene scene = new Scene(panel, 8 * sizeOfSquare, 7 * sizeOfSquare, Color.BLACK);
+        scene.getStylesheets().add("/data/stylesheet.css");
+
+        addNewStartingDateStage.setScene(scene);
+        addNewStartingDateStage.show();
     }
 }
