@@ -1,6 +1,7 @@
 package application;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import model.Trainee;
 import model.TraineeAction;
 
+import javax.xml.soap.Text;
 import java.sql.SQLException;
 
 public class AppWindow {
@@ -35,7 +37,6 @@ public class AppWindow {
     private static TableColumn streetCol = new TableColumn("Street");
     private static TableColumn buildingCol = new TableColumn("Building no.");
     private static TableColumn flatCol = new TableColumn("Flat no.");
-
 
     private static Button searchButton = new Button("Search");
     private static Button addButton = new Button("Add");
@@ -60,6 +61,9 @@ public class AppWindow {
     private static CheckBox theoryCheckBox = new CheckBox();
     private static Label internalExamLabel = new Label("Internal exam:");
     private static CheckBox internalCheckBox = new CheckBox();
+
+    private static Stage addNewCityOrStreetStage;
+    private static Stage addNewStartingDateStage;
 
     private static Paint textColor = Color.LIGHTGRAY;
     public static final int sizeOfSquare = 30;
@@ -198,7 +202,7 @@ public class AppWindow {
         yearCombo = createBirthdayComboBox("year");
         yearCombo.relocate(5.25 * sizeOfSquare, 9 * sizeOfSquare);
         yearCombo.setOnAction(e -> {
-            if (!monthCombo.isDisable()) {
+            if (!monthCombo.isDisable() && monthCombo.getValue().toString().compareTo("2") == 0) {
                 dayUpdate();
             } else if (yearCombo.getValue().toString() != "yyyy") monthCombo.setDisable(false);
         });
@@ -227,12 +231,20 @@ public class AppWindow {
         cityLabel.relocate(14 * sizeOfSquare, 5 * sizeOfSquare);
         cityCombo = createComboBox("city");
         cityCombo.relocate(18 * sizeOfSquare, 5 * sizeOfSquare);
+        cityCombo.setOnAction(e -> {
+            if (cityCombo.getValue().toString().compareTo("<new>") == 0)
+                createAddNewCityOrStreetStage("city");
+        });
 
         streetLabel.getStyleClass().add("label_1");
         streetLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
         streetLabel.relocate(14 * sizeOfSquare, 7 * sizeOfSquare);
         streetCombo = createComboBox("street");
         streetCombo.relocate(18 * sizeOfSquare, 7 * sizeOfSquare);
+        streetCombo.setOnAction(e->{
+            if(streetCombo.getValue().toString().compareTo("<new>") == 0)
+                createAddNewCityOrStreetStage("street");
+        });
 
         buildingNoLabel.getStyleClass().add("label_1");
         buildingNoLabel.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
@@ -327,9 +339,6 @@ public class AppWindow {
         comboBox.setValue("<choose " + what + ">");
         comboBox.getItems().add("<new>");
 
-        // comboBox.getItems().remove("<new>");
-
-
         return comboBox;
     }
 
@@ -351,10 +360,8 @@ public class AppWindow {
 
         } else {
             comboBox.setValue("dd");
-            //w zaleznosci od miesiaca
-            int day = 31;
 
-            for (int i = 1; i <= day; ++i)
+            for (int i = 1; i <= 31; ++i)
                 comboBox.getItems().add(i);
         }
 
@@ -384,5 +391,64 @@ public class AppWindow {
             if (list.size() == 29) dayCombo.getItems().add(30);
             if (list.size() == 30) dayCombo.getItems().add(31);
         }
+    }
+
+    private void createAddNewCityOrStreetStage(String what) {
+        addNewCityOrStreetStage = new Stage();
+        addNewCityOrStreetStage.getIcons().add(new Image(AppWindow.class.getResource("/data/logo.png").toExternalForm()));
+        addNewCityOrStreetStage.setTitle("Add new " + what);
+        addNewCityOrStreetStage.setResizable(false);
+        addNewCityOrStreetStage.setAlwaysOnTop(true);
+        addNewCityOrStreetStage.setMaximized(false);
+
+        Group panel = new Group();
+        Label info = new Label("Add new " + what);
+            info.getStyleClass().add("label_1");
+            info.setAlignment(Pos.CENTER);
+            info.setWrapText(true);
+            info.setPrefSize(6*sizeOfSquare, 1*sizeOfSquare);
+            info.relocate(1*sizeOfSquare, 1*sizeOfSquare);
+
+
+        TextField textField = new TextField();
+            textField.setPrefSize(6*sizeOfSquare, 1*sizeOfSquare);
+            textField.relocate(1*sizeOfSquare, 3*sizeOfSquare);
+
+        Button okButton = new Button("OK");
+            okButton.setPrefSize(2 * sizeOfSquare, 1 * sizeOfSquare);
+            okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
+
+            //okButton.setOnAction(e -> );
+
+
+        Button cancelButton = new Button("Cancel");
+            cancelButton.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
+            cancelButton.relocate(1 * sizeOfSquare, 5 * sizeOfSquare);
+
+            cancelButton.setOnAction(e -> {
+                addNewCityOrStreetStage.close();
+                if(what == "city") cityCombo.setValue("<choose " + what + ">");
+                else streetCombo.setValue("<choose " + what + ">");
+
+            });
+
+
+        panel.getChildren().addAll(info, textField, okButton, cancelButton);
+        Scene scene = new Scene(panel, 8*sizeOfSquare, 7*sizeOfSquare, Color.BLACK);
+        scene.getStylesheets().add("/data/stylesheet.css");
+
+        addNewCityOrStreetStage.setScene(scene);
+        addNewCityOrStreetStage.show();
+    }
+
+    private void createAddNewStartingDateStage() {
+        addNewStartingDateStage = new Stage();
+        addNewStartingDateStage.getIcons().add(new Image(AppWindow.class.getResource("/data/logo.png").toExternalForm()));
+        addNewStartingDateStage.setTitle("Add new starting date");
+        addNewStartingDateStage.setResizable(false);
+        addNewStartingDateStage.setAlwaysOnTop(true);
+        addNewStartingDateStage.setMaximized(false);
+
+
     }
 }
