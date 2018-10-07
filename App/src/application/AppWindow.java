@@ -12,8 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.Trainee;
+import model.TraineeAction;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppWindow {
 
@@ -138,15 +141,9 @@ public class AppWindow {
         searchButton.relocate(32 * sizeOfSquare, 7 * sizeOfSquare);
         searchButton.setOnAction(e -> {
             try {
-                String surr = null, namee = null, pes = null;
-                if (!surnameText.getText().trim().isEmpty()) surr = surnameText.getText();
-                if (!nameText.getText().trim().isEmpty()) namee = nameText.getText();
-                if (!peselText.getText().trim().isEmpty()) pes = peselText.getText();
-
-                Actions.searchTrainee(surr, namee, pes);
+                Actions.searchTrainee(surnameText.getText(), nameText.getText(), peselText.getText());
 
                 table.itemsProperty().setValue(Actions.getTraineeList());
-
             } catch (SQLException | ClassNotFoundException e1) {
                 System.out.println("App - SQL or Class" + e1);
             }
@@ -282,6 +279,24 @@ public class AppWindow {
 
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
+        addButton.setOnAction(e->{
+            Map<String, Object> context = new HashMap<String, Object>();
+            context.put("city", cityCombo.getValue().toString());
+            context.put("street", streetCombo.getValue().toString());
+            context.put("building", buildingNoText.getText());
+            context.put("flat", flatNoText.getText());
+            context.put("pesel", peselText.getText());
+            context.put("surname", surnameText.getText());
+            context.put("name", nameText.getText());
+            context.put("year", yearCombo.getValue().toString());
+            context.put("month", monthCombo.getValue().toString());
+            context.put("day", dayCombo.getValue().toString());
+            context.put("starting_date", startingDateCombo.getValue().toString());
+            context.put("theory", theoryCheckBox.isSelected());
+            context.put("internal_exam", internalCheckBox.isSelected());
+
+           // TraineeAction.insertTrainee(context);
+        });
 
         undoButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         undoButton.relocate(26 * sizeOfSquare, 14 * sizeOfSquare);
@@ -361,13 +376,15 @@ public class AppWindow {
             comboBox.setValue("mm");
 
             for (int i = 1; i <= 12; ++i)
-                comboBox.getItems().add(i);
+                if(i < 10) comboBox.getItems().add("0" + i);
+                else comboBox.getItems().add(i);
 
         } else {
             comboBox.setValue("dd");
 
             for (int i = 1; i <= 31; ++i)
-                comboBox.getItems().add(i);
+                if(i < 10) comboBox.getItems().add("0" + i);
+                else comboBox.getItems().add(i);
         }
 
         return comboBox;
@@ -421,9 +438,17 @@ public class AppWindow {
         Button okButton = new Button("OK");
         okButton.setPrefSize(2 * sizeOfSquare, 1 * sizeOfSquare);
         okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
-
-        //okButton.setOnAction(e -> );
-
+        okButton.setOnAction(e -> {
+            String text = textField.getText();
+            if(text.compareTo("") == 0) {
+                if (what == "city") cityCombo.setValue("<choose " + what + ">");
+                else streetCombo.setValue("<choose " + what + ">");
+            } else {
+                if (what == "city") cityCombo.setValue(text);
+                else streetCombo.setValue(text);
+            }
+            addNewCityOrStreetStage.close();
+        });
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setPrefSize(3 * sizeOfSquare, 1 * sizeOfSquare);
@@ -485,8 +510,15 @@ public class AppWindow {
         Button okButton = new Button("OK");
         okButton.setPrefSize(2 * sizeOfSquare, 1 * sizeOfSquare);
         okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
-
-        //okButton.setOnAction(e -> );
+        okButton.setOnAction(e -> {
+            String text = yearCo.getValue().toString() + "-" + monthCo.getValue().toString() + "-" + dayCo.getValue().toString();
+            if(dayCo.getValue().toString().compareTo("dd") == 0) {
+                startingDateCombo.setValue("<choose starting date>");
+            } else {
+                startingDateCombo.setValue(text);
+            }
+            addNewStartingDateStage.close();
+        });
 
 
         Button cancelButton = new Button("Cancel");

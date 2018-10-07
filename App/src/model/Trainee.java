@@ -9,7 +9,9 @@ public class Trainee {
     private StringProperty pesel;
     private StringProperty surname;
     private StringProperty name;
-    private StringProperty birthday;
+    private StringProperty year;
+    private StringProperty month;
+    private StringProperty day;
     private StringProperty city;
     private StringProperty street;
     private IntegerProperty building_no;
@@ -22,7 +24,9 @@ public class Trainee {
         this.pesel = new SimpleStringProperty();
         this.surname = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
-        this.birthday = new SimpleStringProperty();
+        this.year = new SimpleStringProperty();
+        this.month = new SimpleStringProperty();
+        this.day = new SimpleStringProperty();
         this.city = new SimpleStringProperty();
         this.street = new SimpleStringProperty();
         this.building_no = new SimpleIntegerProperty();
@@ -70,16 +74,40 @@ public class Trainee {
     }
 
     //birthday
-    public String getBirthday() {
-        return birthday.get();
+    public String getYear() {
+        return year.get();
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday.set(birthday);
+    public void setYear(String year) {
+        this.year.set(year);
     }
 
-    public StringProperty birthdayProperty() {
-        return birthday;
+    public StringProperty yearProperty() {
+        return year;
+    }
+
+    public String getMonth() {
+        return month.get();
+    }
+
+    public void setMonth(String month) {
+        this.month.set(month);
+    }
+
+    public StringProperty monthProperty() {
+        return month;
+    }
+
+    public String getDay() {
+        return day.get();
+    }
+
+    public void setDay(String day) {
+        this.day.set(day);
+    }
+
+    public StringProperty dayProperty() {
+        return day;
     }
 
     //city

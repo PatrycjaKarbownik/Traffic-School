@@ -1,6 +1,7 @@
 package database;
 
 import com.sun.rowset.CachedRowSetImpl;
+import javafx.beans.property.StringProperty;
 
 import java.sql.*;
 
@@ -69,6 +70,10 @@ public class DBUtil {
         }
 
         return crs;
+    }
+
+    public static void dbInsert(String text){
+
     }
 
 

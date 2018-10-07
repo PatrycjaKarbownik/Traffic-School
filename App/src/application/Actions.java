@@ -8,6 +8,7 @@ import model.TraineeAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class Actions {
 
@@ -33,7 +34,7 @@ public class Actions {
     public static ObservableList getCityList() throws SQLException, ClassNotFoundException {
         cityList = FXCollections.observableArrayList();
         ResultSet result = null;
-        String query = "SELECT City FROM ADDRESS GROUP BY City";
+        String query = "SELECT City FROM ADDRESS GROUP BY City ORDER BY City";
 
         System.out.println(query);
 
@@ -55,7 +56,7 @@ public class Actions {
     public static ObservableList getStreetList() throws SQLException, ClassNotFoundException {
         streetList = FXCollections.observableArrayList();
         ResultSet result = null;
-        String query = "SELECT Street FROM ADDRESS GROUP BY Street";
+        String query = "SELECT Street FROM ADDRESS GROUP BY Street ORDER BY Street";
 
         System.out.println(query);
 
@@ -74,8 +75,6 @@ public class Actions {
         return streetList;
     }
 
-
-
     public static ObservableList getStartingDateList() {
         startingDateList = FXCollections.observableArrayList();
 
@@ -85,4 +84,5 @@ public class Actions {
 
         return startingDateList;
     }
+
 }
