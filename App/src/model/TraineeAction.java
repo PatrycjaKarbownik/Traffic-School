@@ -59,7 +59,7 @@ public class TraineeAction {
         return list;
     }
 
-    public static void insertTrainee(Map<String, Object> context){
+    public static void insertTrainee(Map<String, Object> context) throws SQLException, ClassNotFoundException {
         Trainee trn = new Trainee();
         trn.setPesel((String) context.get("pesel"));
         trn.setSurname((String) context.get("surname"));
@@ -72,9 +72,9 @@ public class TraineeAction {
         trn.setBuilding_no((Integer) context.get("building"));
         trn.setFlat_no((Integer) context.get("flat"));
         trn.setStarting_date((String) context.get("starting_date"));
-        if((Boolean) context.get("theory")) trn.setTheory('T');
+        if ((Boolean) context.get("theory")) trn.setTheory('T');
         else trn.setTheory('F');
-        if((Boolean) context.get("internal_exam")) trn.setInternal_exam('T');
+        if ((Boolean) context.get("internal_exam")) trn.setInternal_exam('T');
         else trn.setInternal_exam('F');
 
         String id_addr = null;
@@ -93,11 +93,35 @@ public class TraineeAction {
                 "', 'yyyy-mm-dd'), " + id_addr + ")";
 
         String insertTrainee = "INSERT INTO TRAINEE (Pesel, Starting_date, Theory, Internal_exam)" +
-                "VALUES ('" + trn.getPesel() +  "', to_date('" + trn.getStarting_date() +
+                "VALUES ('" + trn.getPesel() + "', to_date('" + trn.getStarting_date() +
                 "', 'yyyy-mm-dd'), '" + trn.getTheory() + "', '" + trn.getInternal_exam() + "')";
 
-        DBUtil.dbInsert(insertPerson);
-        DBUtil.dbInsert(insertTrainee);
+        try {
+            DBUtil.dbInsert(insertPerson);
+            DBUtil.dbInsert(insertTrainee);
+        } catch (SQLException e) {
+            System.out.println("TrnAct - insertTrn2 SQL: " + e);
+        } catch (ClassNotFoundException e) {
+            System.out.println("TrnAct - insertTrn2 ClassNF: " + e);
+        }
+
+
+
+        //test
+
+        ResultSet result = null;
+        String query = "SELECT Surname, Name, Pesel FROM PERSON";
+
+        System.out.println(query);
+
+        try {
+            result = DBUtil.dbExecuteQuery(query);
+        } catch (SQLException e) {
+            System.out.println("TrnAct - SQL select failed: " + e);
+            throw e;
+        } catch (ClassNotFoundException e) {
+            System.out.println("TrnAct - getStreet ClassNotFound: " + e);
+        }
 
 
     }
@@ -105,7 +129,7 @@ public class TraineeAction {
     public static String insertAddress(String city, String street, Integer building, Integer flat) throws SQLException, ClassNotFoundException {
         String id_addr = null;
         String query = "SELECT id_addr FROM ADDRESS WHERE city = " + city + " AND street = " + street + " AND building_number = " + building;
-        if(flat != null) query += " AND flat_number = " + flat;
+        if (flat != null) query += " AND flat_number = " + flat;
 
         ResultSet result = null;
 
@@ -117,15 +141,20 @@ public class TraineeAction {
             System.out.println("TrnAct - insertAddr ClassNF: " + e);
         }
 
-        if(result.first()) return result.getString("id_addr");
+        if (result.first()) return result.getString("id_addr");
         else {
             String insertAddress = "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number) " +
                     "VALUES ('" + city + "', '" + street + "', " + building + ", " + flat + ")";
 
 
-            DBUtil.dbInsert(insertAddress);
+            try {
+                DBUtil.dbInsert(insertAddress);
+            } catch (SQLException e) {
+                System.out.println("TrnAct - insertAddr2 SQL: " + e);
+            } catch (ClassNotFoundException e) {
+                System.out.println("TrnAct - insertAddr2 ClassNF: " + e);
+            }
         }
-
 
 
         return id_addr;

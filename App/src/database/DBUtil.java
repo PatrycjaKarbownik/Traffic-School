@@ -33,7 +33,7 @@ public class DBUtil {
 
     public static void dbDisconnect() throws SQLException {
         try {
-            if(connection != null && !connection.isClosed())
+            if (connection != null && !connection.isClosed())
                 connection.close();
         } catch (Exception e) {
             //e.printStackTrace();
@@ -44,14 +44,12 @@ public class DBUtil {
     public static CachedRowSetImpl dbExecuteQuery(String query) throws SQLException, ClassNotFoundException {
         Statement statement = null;
         ResultSet result = null;
-        PreparedStatement preparedStatement = null;
         CachedRowSetImpl crs = null;
 
         try {
             dbConnect();
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement(query);
-            result = preparedStatement.executeQuery(query);
+            result = statement.executeQuery(query);
 
             crs = new CachedRowSetImpl();
             crs.populate(result);
@@ -59,12 +57,10 @@ public class DBUtil {
             System.out.println("DBUtil - Problem occurated at executeQuery operation: " + e);
             throw e;
         } finally {
-            if(result != null)
+            if (result != null)
                 result.close();
-            if(statement != null)
+            if (statement != null)
                 statement.close();
-            if(preparedStatement != null)
-                preparedStatement.close();
 
             dbDisconnect();
         }
@@ -72,7 +68,23 @@ public class DBUtil {
         return crs;
     }
 
-    public static void dbInsert(String text){
+    public static void dbInsert(String text) throws SQLException, ClassNotFoundException {
+        Statement statement = null;
+
+        try {
+            dbConnect();
+            statement = connection.createStatement();
+            System.out.println(statement.executeUpdate(text));
+        } catch (ClassNotFoundException e) {
+            System.out.println("DBUtil - dbInsert ClassNF: " + e);
+        } catch (SQLException e) {
+            System.out.println("DBUtil - dbInsert SQL: " + e);
+        } finally {
+            if (statement != null)
+                statement.close();
+
+            dbDisconnect();
+        }
 
     }
 
