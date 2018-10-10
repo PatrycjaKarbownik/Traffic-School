@@ -295,7 +295,13 @@ public class AppWindow {
             context.put("theory", theoryCheckBox.isSelected());
             context.put("internal_exam", internalCheckBox.isSelected());
 
-           // TraineeAction.insertTrainee(context);
+            try {
+                TraineeAction.insertTrainee(context);
+            } catch (SQLException e1) {
+                System.out.println("App createAddGroup SQL: " + e1);
+            } catch (ClassNotFoundException e1) {
+                System.out.println("App createAddGroup ClassNF: " + e1);
+            }
         });
 
         undoButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);

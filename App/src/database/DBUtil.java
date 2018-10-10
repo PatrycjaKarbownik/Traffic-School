@@ -74,7 +74,7 @@ public class DBUtil {
         try {
             dbConnect();
             statement = connection.createStatement();
-            System.out.println(statement.executeUpdate(text));
+            System.out.println("rows: " + statement.executeUpdate(text));
         } catch (ClassNotFoundException e) {
             System.out.println("DBUtil - dbInsert ClassNF: " + e);
         } catch (SQLException e) {
