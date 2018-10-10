@@ -1,7 +1,6 @@
 package database;
 
 import com.sun.rowset.CachedRowSetImpl;
-import javafx.beans.property.StringProperty;
 
 import java.sql.*;
 

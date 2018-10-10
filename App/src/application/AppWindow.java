@@ -197,7 +197,7 @@ public class AppWindow {
         yearCombo = createDateComboBox("yearB");
         yearCombo.relocate(5.25 * sizeOfSquare, 9 * sizeOfSquare);
         yearCombo.setOnAction(e -> {
-            if (!monthCombo.isDisable() && monthCombo.getValue().toString().compareTo("2") == 0) {
+            if (!monthCombo.isDisable() && monthCombo.getValue().toString().compareTo("02") == 0) {
                 dayUpdate(yearCombo, monthCombo, dayCombo);
             } else if (yearCombo.getValue().toString() != "yyyy") monthCombo.setDisable(false);
         });
@@ -400,25 +400,28 @@ public class AppWindow {
         month = monthCombo.getValue().toString();
         ObservableList<String> list = dayCombo.getItems();
         int year = Integer.parseInt(yearCombo.getValue().toString().trim());
-        if (month.compareTo("2") == 0 || month.compareTo("4") == 0
-                || month.compareTo("6") == 0 || month.compareTo("9") == 0
-                || month.compareTo("11") == 0) {
-            if (list.size() == 31) dayCombo.getItems().remove(30); //31
-            if (month.compareTo("2") == 0) {
-                if (list.size() > 28) {
-                    if (list.size() == 30) dayCombo.getItems().remove(29); //30
-                    if (year % 4 != 0 && list.size() == 29)
-                        dayCombo.getItems().remove(28); //29
-                } else if (list.size() == 28 && year % 4 == 0) dayCombo.getItems().add(29);
-            } else {
+
+        switch(month) {
+            case "02": case "04": case "06": case "09": case "11":
+                if (list.size() == 31) dayCombo.getItems().remove(30); //31
+                if (month.compareTo("02") == 0) {
+                    if (list.size() > 28) {
+                        if (list.size() == 30) dayCombo.getItems().remove(29); //30
+                        if (year % 4 != 0 && list.size() == 29)
+                            dayCombo.getItems().remove(28); //29
+                    } else if (list.size() == 28 && year % 4 == 0) dayCombo.getItems().add(29);
+                } else {
+                    if (list.size() == 28) dayCombo.getItems().add(29);
+                    if (list.size() == 29) dayCombo.getItems().add(30);
+                }
+                break;
+            case "01": case "03": case "05": case "07": case "08": case "10": case "12":
                 if (list.size() == 28) dayCombo.getItems().add(29);
                 if (list.size() == 29) dayCombo.getItems().add(30);
-            }
-        } else {
-            if (list.size() == 28) dayCombo.getItems().add(29);
-            if (list.size() == 29) dayCombo.getItems().add(30);
-            if (list.size() == 30) dayCombo.getItems().add(31);
+                if (list.size() == 30) dayCombo.getItems().add(31);
+                break;
         }
+
     }
 
     private void createAddNewCityOrStreetStage(String what) {
@@ -497,7 +500,7 @@ public class AppWindow {
 
         yearCo.relocate(0.25 * sizeOfSquare, 3 * sizeOfSquare);
         yearCo.setOnAction(e -> {
-            if (!monthCo.isDisable() && monthCo.getValue().toString().compareTo("2") == 0) {
+            if (!monthCo.isDisable() && monthCo.getValue().toString().compareTo("02") == 0) {
                 dayUpdate(yearCo, monthCo, dayCo);
             } else if (yearCo.getValue().toString() != "yyyy") monthCo.setDisable(false);
         });
