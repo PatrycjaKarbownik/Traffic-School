@@ -1,3 +1,7 @@
+//created by Patrycja Karbownik
+//application for database
+//"TrafficSchool"
+
 package model;
 
 import database.DBUtil;
@@ -132,13 +136,14 @@ public class TraineeAction {
         }
 
         System.out.println("test 2");
+        result.next();
         System.out.println(result.getString("Surname") + " " + result.getString("Name") + " " + result.getString("Pesel"));
 
     }
 
     public static String insertAddress(String city, String street, Integer building, Integer flat) throws SQLException, ClassNotFoundException {
         String id_addr = null;
-        String query = "SELECT id_addr FROM ADDRESS WHERE city = '" + city + "' AND street = '" + street + "' AND building_number = " + building;
+        String query = "SELECT Id_addr FROM ADDRESS WHERE city = '" + city + "' AND street = '" + street + "' AND building_number = " + building;
         if (flat != null) query += " AND flat_number = " + flat;
 
         System.out.println(query);
@@ -146,7 +151,9 @@ public class TraineeAction {
         ResultSet result = null;
 
         try {
+            System.out.println("result 1");
             result = DBUtil.dbExecuteQuery(query);
+            System.out.println("result 2");
         } catch (SQLException e) {
             System.out.println("TrnAct - insertAddr SQL: " + e);
         } catch (ClassNotFoundException e) {
@@ -170,8 +177,9 @@ public class TraineeAction {
             }
         }
 
-        System.out.println(result.getString("id_addr"));
+        result.next();
+        System.out.println(result.getString("Id_addr"));
 
-        return result.getString("id_addr");
+        return result.getString("Id_addr");
     }
 }

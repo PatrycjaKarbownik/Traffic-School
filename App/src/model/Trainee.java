@@ -1,3 +1,7 @@
+//created by Patrycja Karbownik
+//application for database
+//"TrafficSchool"
+
 package model;
 
 import javafx.beans.property.IntegerProperty;

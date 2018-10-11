@@ -1,3 +1,7 @@
+/* created by Patrycja Karbownik
+application for database
+"TrafficSchool" */
+
 .button {
 	-fx-font-size: 14;
 	-fx-font-weight: bold;
@@ -58,6 +62,7 @@
 
 .table-view .column-header {
     -fx-background-color: transparent;
+	-fx-border-color: black;
 }
 
 .check-box {

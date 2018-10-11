@@ -1,3 +1,7 @@
+//created by Patrycja Karbownik
+//application for database
+//"TrafficSchool"
+
 package database;
 
 import com.sun.rowset.CachedRowSetImpl;
@@ -47,6 +51,7 @@ public class DBUtil {
 
         try {
             dbConnect();
+            System.out.println("connect");
             statement = connection.createStatement();
             result = statement.executeQuery(query);
 
@@ -62,6 +67,7 @@ public class DBUtil {
                 statement.close();
 
             dbDisconnect();
+            System.out.println("disconnect");
         }
 
         return crs;
