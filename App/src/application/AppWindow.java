@@ -283,7 +283,7 @@ public class AppWindow {
 
         addButton.setPrefSize(4 * sizeOfSquare, 1 * sizeOfSquare);
         addButton.relocate(32 * sizeOfSquare, 14 * sizeOfSquare);
-        addButton.setOnAction(e->{
+        addButton.setOnAction(e -> {
             Map<String, Object> context = new HashMap<String, Object>();
             context.put("city", cityCombo.getValue().toString());
             context.put("street", streetCombo.getValue().toString());
@@ -386,14 +386,14 @@ public class AppWindow {
             comboBox.setValue("mm");
 
             for (int i = 1; i <= 12; ++i)
-                if(i < 10) comboBox.getItems().add("0" + i);
+                if (i < 10) comboBox.getItems().add("0" + i);
                 else comboBox.getItems().add(i);
 
         } else {
             comboBox.setValue("dd");
 
             for (int i = 1; i <= 31; ++i)
-                if(i < 10) comboBox.getItems().add("0" + i);
+                if (i < 10) comboBox.getItems().add("0" + i);
                 else comboBox.getItems().add(i);
         }
 
@@ -405,8 +405,12 @@ public class AppWindow {
         ObservableList<String> list = dayCombo.getItems();
         int year = Integer.parseInt(yearCombo.getValue().toString().trim());
 
-        switch(month) {
-            case "02": case "04": case "06": case "09": case "11":
+        switch (month) {
+            case "02":
+            case "04":
+            case "06":
+            case "09":
+            case "11":
                 if (list.size() == 31) dayCombo.getItems().remove(30); //31
                 if (month.compareTo("02") == 0) {
                     if (list.size() > 28) {
@@ -419,7 +423,13 @@ public class AppWindow {
                     if (list.size() == 29) dayCombo.getItems().add(30);
                 }
                 break;
-            case "01": case "03": case "05": case "07": case "08": case "10": case "12":
+            case "01":
+            case "03":
+            case "05":
+            case "07":
+            case "08":
+            case "10":
+            case "12":
                 if (list.size() == 28) dayCombo.getItems().add(29);
                 if (list.size() == 29) dayCombo.getItems().add(30);
                 if (list.size() == 30) dayCombo.getItems().add(31);
@@ -453,7 +463,7 @@ public class AppWindow {
         okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
         okButton.setOnAction(e -> {
             String text = textField.getText();
-            if(text.compareTo("") == 0) {
+            if (text.compareTo("") == 0) {
                 if (what == "city") cityCombo.setValue("<choose " + what + ">");
                 else streetCombo.setValue("<choose " + what + ">");
             } else {
@@ -525,7 +535,7 @@ public class AppWindow {
         okButton.relocate(5 * sizeOfSquare, 5 * sizeOfSquare);
         okButton.setOnAction(e -> {
             String text = yearCo.getValue().toString() + "-" + monthCo.getValue().toString() + "-" + dayCo.getValue().toString();
-            if(dayCo.getValue().toString().compareTo("dd") == 0) {
+            if (dayCo.getValue().toString().compareTo("dd") == 0) {
                 startingDateCombo.setValue("<choose starting date>");
             } else {
                 startingDateCombo.setValue(text);

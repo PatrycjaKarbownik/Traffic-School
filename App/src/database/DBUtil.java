@@ -5,8 +5,10 @@
 package database;
 
 import com.sun.rowset.CachedRowSetImpl;
+import model.Trainee;
 
 import java.sql.*;
+import java.util.Map;
 
 public class DBUtil {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -73,23 +75,73 @@ public class DBUtil {
         return crs;
     }
 
-    public static void dbInsert(String text) throws SQLException, ClassNotFoundException {
+    public static void dbTraineeTransaction(Trainee trn) throws SQLException {
         Statement statement = null;
+        ResultSet result = null;
+        String id_addr = null;
+        CachedRowSetImpl crs = null;
+
+        String queryIdAddress = "SELECT Id_addr FROM ADDRESS WHERE city = '" + trn.getCity() + "' AND street = '" + trn.getStreet() + "' AND building_number = " + trn.getBuilding_no();
+        if (trn.flat_noProperty() != null) queryIdAddress += " AND flat_number = " + trn.getFlat_no(); //??????????
+
+        System.out.println(queryIdAddress);
 
         try {
             dbConnect();
+            System.out.println("dbConnect");
+            connection.setAutoCommit(false);
             statement = connection.createStatement();
-            System.out.println("rows: " + statement.executeUpdate(text));
-        } catch (ClassNotFoundException e) {
-            System.out.println("DBUtil - dbInsert ClassNF: " + e);
+            System.out.println("createStatement");
+            result = statement.executeQuery(queryIdAddress);
+            crs = new CachedRowSetImpl();
+            crs.populate(result);
+            result = crs;
+            System.out.println("executeQuery IDADDR");
+
+            if (!result.first()) {
+                System.out.println("if-wewnatrz");
+                String insertAddress = "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number) " +
+                        "VALUES ('" + trn.getCity() + "', '" + trn.getStreet() + "', " + trn.getBuilding_no() + ", " + trn.flat_noProperty().getValue()/*getFlat_no()*/ + ")"; // flat no property????
+
+                System.out.println(insertAddress);
+                System.out.println("rows: " + statement.executeUpdate(insertAddress));
+                result = statement.executeQuery(queryIdAddress);
+            }
+
+            result.next();
+            System.out.println("id_addr = " + result.getString("Id_addr"));
+            id_addr = result.getString("Id_addr");
+
+            // id_addr = null;
+
+            String insertPerson = "INSERT INTO PERSON (Pesel, Surname, Name, Birthday, ID_addr) " +
+                    "VALUES ('" + trn.getPesel() + "', '" + trn.getSurname() + "', '" + trn.getName() +
+                    "', to_date('" + trn.getYear() + "-" + trn.getMonth() + "-" + trn.getDay() +
+                    "', 'yyyy-mm-dd'), " + id_addr + ")";
+
+            String insertTrainee = "INSERT INTO TRAINEE (Pesel, Starting_date, Theory, Internal_exam)" +
+                    "VALUES ('" + trn.getPesel() + "', to_date('" + trn.getStarting_date() +
+                    "', 'yyyy-mm-dd'), '" + trn.getTheory() + "', '" + trn.getInternal_exam() + "')";
+
+            System.out.println(insertPerson);
+            System.out.println("rows: " + statement.executeUpdate(insertPerson));
+            System.out.println(insertTrainee);
+            System.out.println("rows: " + statement.executeUpdate(insertTrainee));
+
+
         } catch (SQLException e) {
-            System.out.println("DBUtil - dbInsert SQL: " + e);
+            connection.rollback();
+            System.out.println("DBUtil - insertTrn SQL: " + e);
+        } catch (ClassNotFoundException e) {
+            connection.rollback();
+            System.out.println("DBUtil - insertTrn ClassNF: " + e);
         } finally {
             if (statement != null)
                 statement.close();
-
-            dbDisconnect();
         }
+
+        connection.commit();
+        dbDisconnect();
 
     }
 

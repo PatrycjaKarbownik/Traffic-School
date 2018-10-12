@@ -31,7 +31,7 @@ public class Actions {
         }
     }
 
-    public static ObservableList getTraineeList(){
+    public static ObservableList getTraineeList() {
         return traineeList;
     }
 

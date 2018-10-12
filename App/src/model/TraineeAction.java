@@ -76,110 +76,17 @@ public class TraineeAction {
         trn.setBuilding_no(Integer.parseInt(String.valueOf(context.get("building"))));
         trn.setFlat_no(Integer.parseInt(String.valueOf(context.get("flat")))); // w przypadku NULL problem !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         trn.setStarting_date((String) context.get("starting_date"));
+
+        System.out.println(context.get("theory").toString());
         if ((Boolean) context.get("theory")) trn.setTheory('T');
         else trn.setTheory('F');
         if ((Boolean) context.get("internal_exam")) trn.setInternal_exam('T');
         else trn.setInternal_exam('F');
 
-        String id_addr = null;
 
         System.out.println("INSERT TRAINEE");
-
-        try {
-            System.out.println("insertAddress");
-            id_addr = insertAddress(trn.getCity(), trn.getStreet(), trn.getBuilding_no(), trn.getFlat_no());
-            System.out.println("id_addr = " + id_addr);
-        } catch (SQLException e) {
-            System.out.println("TrnAct - insertTrn SQL: " + e);
-        } catch (ClassNotFoundException e) {
-            System.out.println("TrnAct - insertTrn ClassNF: " + e);
-        }
-
-        String insertPerson = "INSERT INTO PERSON (Pesel, Surname, Name, Birthday, ID_addr) " +
-                "VALUES ('" + trn.getPesel() + "', '" + trn.getSurname() + "', '" + trn.getName() +
-                "', to_date('" + trn.getYear() + "-" + trn.getMonth() + "-" + trn.getDay() +
-                "', 'yyyy-mm-dd'), " + id_addr + ")";
-
-        String insertTrainee = "INSERT INTO TRAINEE (Pesel, Starting_date, Theory, Internal_exam)" +
-                "VALUES ('" + trn.getPesel() + "', to_date('" + trn.getStarting_date() +
-                "', 'yyyy-mm-dd'), '" + trn.getTheory() + "', '" + trn.getInternal_exam() + "')";
-
-        try {
-            System.out.println("insertPerson");
-            DBUtil.dbInsert(insertPerson);
-            System.out.println("insertTrainee");
-            DBUtil.dbInsert(insertTrainee);
-        } catch (SQLException e) {
-            System.out.println("TrnAct - insertTrn2 SQL: " + e);
-        } catch (ClassNotFoundException e) {
-            System.out.println("TrnAct - insertTrn2 ClassNF: " + e);
-        }
-
-
-
-        //test
-
-        ResultSet result = null;
-        String query = "SELECT Surname, Name, Pesel FROM PERSON WHERE Pesel = '" + trn.getPesel() + "'";
-
-        System.out.println("TEST");
-        System.out.println(query);
-
-        try {
-            System.out.println("test 1");
-            result = DBUtil.dbExecuteQuery(query);
-        } catch (SQLException e) {
-            System.out.println("TrnAct - SQL select failed: " + e);
-          //  throw e;
-        } catch (ClassNotFoundException e) {
-            System.out.println("TrnAct - getStreet ClassNotFound: " + e);
-        }
-
-        System.out.println("test 2");
-        result.next();
-        System.out.println(result.getString("Surname") + " " + result.getString("Name") + " " + result.getString("Pesel"));
-
+        DBUtil.dbTraineeTransaction(trn);
     }
 
-    public static String insertAddress(String city, String street, Integer building, Integer flat) throws SQLException, ClassNotFoundException {
-        String id_addr = null;
-        String query = "SELECT Id_addr FROM ADDRESS WHERE city = '" + city + "' AND street = '" + street + "' AND building_number = " + building;
-        if (flat != null) query += " AND flat_number = " + flat;
 
-        System.out.println(query);
-
-        ResultSet result = null;
-
-        try {
-            System.out.println("result 1");
-            result = DBUtil.dbExecuteQuery(query);
-            System.out.println("result 2");
-        } catch (SQLException e) {
-            System.out.println("TrnAct - insertAddr SQL: " + e);
-        } catch (ClassNotFoundException e) {
-            System.out.println("TrnAct - insertAddr ClassNF: " + e);
-        }
-
-        if (!result.first()) {
-            String insertAddress = "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number) " +
-                    "VALUES ('" + city + "', '" + street + "', " + building + ", " + flat + ")";
-
-            System.out.println(insertAddress);
-            try {
-                System.out.println("insert");
-                DBUtil.dbInsert(insertAddress);
-                System.out.println("result = dbExecute");
-                result = DBUtil.dbExecuteQuery(query);
-            } catch (SQLException e) {
-                System.out.println("TrnAct - insertAddr2 SQL: " + e);
-            } catch (ClassNotFoundException e) {
-                System.out.println("TrnAct - insertAddr2 ClassNF: " + e);
-            }
-        }
-
-        result.next();
-        System.out.println(result.getString("Id_addr"));
-
-        return result.getString("Id_addr");
-    }
 }
