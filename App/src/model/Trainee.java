@@ -162,6 +162,10 @@ public class Trainee {
         this.flat_no.set(flat_no);
     }
 
+    public void setFlat_noNull(Object x) {
+        this.flat_no = (IntegerProperty) x;
+    }
+
     public IntegerProperty flat_noProperty() {
         return flat_no;
     }

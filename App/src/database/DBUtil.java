@@ -8,7 +8,6 @@ import com.sun.rowset.CachedRowSetImpl;
 import model.Trainee;
 
 import java.sql.*;
-import java.util.Map;
 
 public class DBUtil {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -82,7 +81,7 @@ public class DBUtil {
         CachedRowSetImpl crs = null;
 
         String queryIdAddress = "SELECT Id_addr FROM ADDRESS WHERE city = '" + trn.getCity() + "' AND street = '" + trn.getStreet() + "' AND building_number = " + trn.getBuilding_no();
-        if (trn.flat_noProperty() != null) queryIdAddress += " AND flat_number = " + trn.getFlat_no(); //??????????
+        if (trn.flat_noProperty() != null) queryIdAddress += " AND flat_number = " + trn.getFlat_no();
 
         System.out.println(queryIdAddress);
 
@@ -101,7 +100,10 @@ public class DBUtil {
             if (!result.first()) {
                 System.out.println("if-wewnatrz");
                 String insertAddress = "INSERT INTO ADDRESS (City, Street, Building_number, Flat_number) " +
-                        "VALUES ('" + trn.getCity() + "', '" + trn.getStreet() + "', " + trn.getBuilding_no() + ", " + trn.flat_noProperty().getValue()/*getFlat_no()*/ + ")"; // flat no property????
+                        "VALUES ('" + trn.getCity() + "', '" + trn.getStreet() + "', " + trn.getBuilding_no() + ", ";
+                if (trn.flat_noProperty() != null)
+                    insertAddress += trn.flat_noProperty().getValue() + ")";
+                else insertAddress += "null)";
 
                 System.out.println(insertAddress);
                 System.out.println("rows: " + statement.executeUpdate(insertAddress));

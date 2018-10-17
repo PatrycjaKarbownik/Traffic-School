@@ -74,7 +74,8 @@ public class TraineeAction {
         trn.setCity((String) context.get("city"));
         trn.setStreet((String) context.get("street"));
         trn.setBuilding_no(Integer.parseInt(String.valueOf(context.get("building"))));
-        trn.setFlat_no(Integer.parseInt(String.valueOf(context.get("flat")))); // w przypadku NULL problem !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(String.valueOf(context.get("flat")).compareTo("") != 0 ) trn.setFlat_no(Integer.parseInt(String.valueOf(context.get("flat"))));
+        else trn.setFlat_noNull(null);
         trn.setStarting_date((String) context.get("starting_date"));
 
         System.out.println(context.get("theory").toString());
